@@ -13,36 +13,52 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
+            
+            Text("Current State: \(pomodoroViewModel.currentState == .PomodoroTimer ? "Flow" : "Break")")
+            
             Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
                 .font(.largeTitle)
                 .padding()
             
             Button(action: {
-                switch pomodoroViewModel.currentTimerState {
-                case .stop:
-                    pomodoroViewModel.currentTimerState = .start
-                case .start:
-                    pomodoroViewModel.currentTimerState = .stop
-                case .running:
-                    break
+                switch pomodoroViewModel.currentState {
+                case .PomodoroTimer:
+                    switch pomodoroViewModel.currentTimerState {
+                    case .stop:
+                        pomodoroViewModel.startTimer()
+                    case .running:
+                        pomodoroViewModel.stopTimer()
+                    }
+                    
+                case .PomodoroBreak:
+                    switch pomodoroViewModel.currentBreakState {
+                    case .stop:
+                        pomodoroViewModel.startBreak()
+                    case .running:
+                        pomodoroViewModel.stopBreak()
+                    }
+                    
                 }
-            }) {
-                Text(pomodoroViewModel.currentTimerState == .stop ? "Start Timer" : "Stop Timer")
-            }
                 
+                
+            }) {
+              
+                Text(pomodoroViewModel.currentTimerState == .running || pomodoroViewModel.currentBreakState == .running ? "Stop Timer" : "Start Timer")
+            }
+            
         }
         .onReceive(pomodoroViewModel.timer) { time in
-            if pomodoroViewModel.currentTimerState == .start {
+            if pomodoroViewModel.currentTimerState != .stop || pomodoroViewModel.currentBreakState != .stop  {
                 if pomodoroViewModel.timeRemaining > 0 {
                     pomodoroViewModel.timeRemaining -= 1
                 }
             }
-           
+            
         }
         .onAppear {
             pomodoroViewModel.currentTimerState = .stop
         }
-      
+        
     }
 }
 

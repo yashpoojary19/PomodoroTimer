@@ -10,6 +10,8 @@ import Foundation
 
 class PomodoroViewModel: ObservableObject {
     
+   
+    @Published var currentState = TimerState.PomodoroTimer
     @Published var currentTimerState = PomodoroTimer.stop
     @Published var currentBreakState = PomodoroBreak.stop
     
@@ -19,31 +21,32 @@ class PomodoroViewModel: ObservableObject {
     @Published var timeRemaining: Double = 25*60
     
     var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-   
-    
+
     func startTimer() {
-        currentTimerState = PomodoroTimer.start
-   
+        currentState = .PomodoroTimer
+        currentTimerState = PomodoroTimer.running
         self.timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-      
-        
     }
     
-    func updateTimer() {
-        
-    }
     
     func stopTimer() {
         self.timer.upstream.connect().cancel()
+        timeRemaining = 5*60
+        currentTimerState = .stop
+        currentState = .PomodoroBreak
     }
     
-    
     func startBreak() {
-        
+        currentState = .PomodoroBreak
+        currentBreakState = .running
+        timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
     func stopBreak() {
-        
+        self.timer.upstream.connect().cancel()
+        currentBreakState = .stop
+        currentState = .PomodoroTimer
+        timeRemaining = 25*60
     }
     
   
