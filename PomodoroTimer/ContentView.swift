@@ -30,6 +30,7 @@ struct ContentView: View {
                         pomodoroViewModel.startTimer()
                     case .running:
                         pomodoroViewModel.stopTimer()
+                        
                     }
                     
                 case .PomodoroBreak:
@@ -55,22 +56,36 @@ struct ContentView: View {
                   ForEach(pomodoroViewModel.timerDurationArray, id: \.self) { timerDuration in
                            Button(action: {
                                pomodoroViewModel.timerDuration = timerDuration * 60
+                               if pomodoroViewModel.currentTimerState != .running && pomodoroViewModel.currentBreakState != .running {
+                                   pomodoroViewModel.timeRemaining = timerDuration * 60
+                               }
                            }) {
-                               Text("\(pomodoroViewModel.forTrailingZero(temp: timerDuration)) min")
+                               Text("\(pomodoroViewModel.timerDuration == timerDuration * 60 ? "✓" : "   ") \(pomodoroViewModel.forTrailingZero(temp: timerDuration)) min")
+                                   .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+                        
                         }
                     }
+                    
                 } label: {
                     Text("Flow Duration")
                 }
                 
                 Menu {
-                    ForEach(pomodoroViewModel.breakDurationArray, id: \.self) { breakDuration in
-                             Button(action: {
-                                 pomodoroViewModel.breakTimeDuration = breakDuration * 60
-                             }) {
-                                 Text("\(pomodoroViewModel.forTrailingZero(temp: breakDuration)) min")
-                          }
-                      }
+                  
+                        ForEach(pomodoroViewModel.breakDurationArray, id: \.self) { breakDuration in
+                    
+                                 Button(action: {
+                                     pomodoroViewModel.breakTimeDuration = breakDuration * 60
+                                     if pomodoroViewModel.currentTimerState != .running && pomodoroViewModel.currentBreakState != .running {
+                                         pomodoroViewModel.timeRemaining = breakDuration * 60
+                                     }
+                                 }) {
+                                     Text("\(pomodoroViewModel.breakTimeDuration == breakDuration * 60 ? "✓" : "   ") \(pomodoroViewModel.forTrailingZero(temp: breakDuration)) min")
+                                    
+                              }
+                     
+                    }
+                
                   } label: {
                       Text("Break Duration")
                   }
@@ -96,3 +111,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+
+//CHECK MARK
+//Unicode: U+2713, UTF-8: E2 9C 93

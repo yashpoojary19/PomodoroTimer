@@ -6,9 +6,9 @@
 //
 
 import Foundation
+import UserNotifications
 
-
-class PomodoroViewModel: ObservableObject {
+class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
     
    
     @Published var currentState = TimerState.PomodoroTimer
@@ -31,13 +31,14 @@ class PomodoroViewModel: ObservableObject {
     func startTimer() {
         currentState = .PomodoroTimer
         currentTimerState = PomodoroTimer.running
+        timeRemaining = timerDuration
         self.timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
     
     func stopTimer() {
         self.timer.upstream.connect().cancel()
-        timeRemaining = 5*60
+        timeRemaining = breakTimeDuration
         currentTimerState = .stop
         currentState = .PomodoroBreak
     }
@@ -45,6 +46,7 @@ class PomodoroViewModel: ObservableObject {
     func startBreak() {
         currentState = .PomodoroBreak
         currentBreakState = .running
+        timeRemaining = breakTimeDuration
         timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
@@ -52,7 +54,7 @@ class PomodoroViewModel: ObservableObject {
         self.timer.upstream.connect().cancel()
         currentBreakState = .stop
         currentState = .PomodoroTimer
-        timeRemaining = 25*60
+        timeRemaining = timerDuration
     }
     
   
@@ -76,5 +78,40 @@ class PomodoroViewModel: ObservableObject {
     func forTrailingZero(temp: Double) -> String {
         let tempVar = String(format: "%g", temp)
         return tempVar
+    }
+    
+    override init() {
+        super.init()
+        self.requestNotification()
+    }
+    
+    func requestNotification() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+            if success {
+                print("All set!")
+            } else if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+        
+        UNUserNotificationCenter.current().delegate = self
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.sound, .banner])
+    }
+    
+    func addNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "Pomodoro Timer"
+        content.subtitle = "Your session has ended!"
+        content.sound = UNNotificationSound.default
+
+       
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(timeRemaining), repeats: false)
+
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+
+        UNUserNotificationCenter.current().add(request)
     }
 }
