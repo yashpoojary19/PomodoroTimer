@@ -8,9 +8,41 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject var pomodoroViewModel = PomodoroViewModel()
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        VStack {
+            Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
+                .font(.largeTitle)
+                .padding()
+            
+            Button(action: {
+                switch pomodoroViewModel.currentTimerState {
+                case .stop:
+                    pomodoroViewModel.currentTimerState = .start
+                case .start:
+                    pomodoroViewModel.currentTimerState = .stop
+                case .running:
+                    break
+                }
+            }) {
+                Text(pomodoroViewModel.currentTimerState == .stop ? "Start Timer" : "Stop Timer")
+            }
+                
+        }
+        .onReceive(pomodoroViewModel.timer) { time in
+            if pomodoroViewModel.currentTimerState == .start {
+                if pomodoroViewModel.timeRemaining > 0 {
+                    pomodoroViewModel.timeRemaining -= 1
+                }
+            }
+           
+        }
+        .onAppear {
+            pomodoroViewModel.currentTimerState = .stop
+        }
+      
     }
 }
 
