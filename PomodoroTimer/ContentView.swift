@@ -14,6 +14,8 @@ struct ContentView: View {
     var body: some View {
         VStack {
             
+        
+            
             Text("Current State: \(pomodoroViewModel.currentState == .PomodoroTimer ? "Flow" : "Break")")
             
             Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
@@ -47,6 +49,33 @@ struct ContentView: View {
             }
             
         }
+        .toolbar {
+            ToolbarItemGroup(placement: .navigation) {
+              Menu {
+                  ForEach(pomodoroViewModel.timerDurationArray, id: \.self) { timerDuration in
+                           Button(action: {
+                               pomodoroViewModel.timerDuration = timerDuration * 60
+                           }) {
+                               Text("\(pomodoroViewModel.forTrailingZero(temp: timerDuration)) min")
+                        }
+                    }
+                } label: {
+                    Text("Flow Duration")
+                }
+                
+                Menu {
+                    ForEach(pomodoroViewModel.breakDurationArray, id: \.self) { breakDuration in
+                             Button(action: {
+                                 pomodoroViewModel.breakTimeDuration = breakDuration * 60
+                             }) {
+                                 Text("\(pomodoroViewModel.forTrailingZero(temp: breakDuration)) min")
+                          }
+                      }
+                  } label: {
+                      Text("Break Duration")
+                  }
+            }
+         }
         .onReceive(pomodoroViewModel.timer) { time in
             if pomodoroViewModel.currentTimerState != .stop || pomodoroViewModel.currentBreakState != .stop  {
                 if pomodoroViewModel.timeRemaining > 0 {

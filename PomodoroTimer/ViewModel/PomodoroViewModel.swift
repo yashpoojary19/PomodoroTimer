@@ -15,6 +15,12 @@ class PomodoroViewModel: ObservableObject {
     @Published var currentTimerState = PomodoroTimer.stop
     @Published var currentBreakState = PomodoroBreak.stop
     
+    @Published var timerDuration: Double = 25*60
+    @Published var breakTimeDuration: Double = 5*60
+    
+    let timerDurationArray: [Double] = [10, 25, 55, 90]
+    let breakDurationArray: [Double] = [5, 10 , 15, 20]
+    
 //    let currentTimeBlock = 25*60
 //    let currentBreakTime = 5*60
     
@@ -65,4 +71,10 @@ class PomodoroViewModel: ObservableObject {
             
         }
     
+        
+  
+    func forTrailingZero(temp: Double) -> String {
+        let tempVar = String(format: "%g", temp)
+        return tempVar
+    }
 }
