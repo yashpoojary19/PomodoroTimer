@@ -18,8 +18,8 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     @Published var timerDuration: Double = 25*60
     @Published var breakTimeDuration: Double = 5*60
     
-    let timerDurationArray: [Double] = [10, 25, 55, 90]
-    let breakDurationArray: [Double] = [5, 10 , 15, 20]
+    let timerDurationArray: [Double] = [0.1, 10, 25, 55, 90]
+    let breakDurationArray: [Double] = [0.1, 5, 10 , 15, 20]
 
     @Published var timeRemaining: Double = 25*60
     

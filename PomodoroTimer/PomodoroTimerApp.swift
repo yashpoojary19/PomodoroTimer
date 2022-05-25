@@ -19,19 +19,32 @@ struct PomodoroTimerApp: App {
                 .frame(width: 300, height: 200)
             
         }
-        .onChange(of: phase) { newValue in
-            if newValue == .background {
-                lastActiveDateStamp = Date()
-            }
-            
-            if newValue == .active {
-                let currentTimeStampDifference = Date().timeIntervalSince(lastActiveDateStamp)
-                if pomodoroViewModel.timeRemaining - Double(currentTimeStampDifference) <= 0 {
-                    pomodoroViewModel.timeRemaining = pomodoroViewModel.timerDuration
-                } else {
-                    pomodoroViewModel.timeRemaining -= Double(currentTimeStampDifference)
-                }
-            }
-        }
+//        .onChange(of: phase) { newValue in
+//            if newValue == .background {
+//                print("I am in background")
+//                lastActiveDateStamp = Date()
+//            }
+//
+//            if newValue == .active {
+//                print("I am active")
+//                let currentTimeStampDifference = Date().timeIntervalSince(lastActiveDateStamp)
+//                if pomodoroViewModel.timeRemaining - Double(currentTimeStampDifference) <= 0 {
+//
+//                    // when the difference is negative
+//
+//                    switch pomodoroViewModel.currentState {
+//                    case .PomodoroTimer:
+//                        pomodoroViewModel.currentState = .PomodoroBreak
+//                        pomodoroViewModel.timeRemaining = pomodoroViewModel.breakTimeDuration
+//                    case .PomodoroBreak:
+//                        pomodoroViewModel.currentState = .PomodoroTimer
+//                        pomodoroViewModel.timeRemaining = pomodoroViewModel.timerDuration
+//                    }
+//
+//                } else {
+//                    pomodoroViewModel.timeRemaining -= Double(currentTimeStampDifference)
+//                }
+//            }
+//        }
     }
 }

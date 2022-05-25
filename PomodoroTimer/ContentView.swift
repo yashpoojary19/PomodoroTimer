@@ -127,6 +127,22 @@ struct ContentView: View {
                   }
             }
          }
+        .onChange(of: pomodoroViewModel.timeRemaining) { time in
+            
+            switch pomodoroViewModel.currentState {
+            case .PomodoroTimer:
+                if time == 0 {
+                    pomodoroViewModel.startBreak()
+                }
+                
+            case .PomodoroBreak:
+                if time == 0 {
+                    pomodoroViewModel.startTimer()
+                }
+                
+            }
+            
+        }
         .onReceive(pomodoroViewModel.timer) { time in
             if pomodoroViewModel.currentTimerState != .stop || pomodoroViewModel.currentBreakState != .stop  {
                 if pomodoroViewModel.timeRemaining > 0 {
