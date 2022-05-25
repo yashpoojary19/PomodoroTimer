@@ -20,10 +20,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     
     let timerDurationArray: [Double] = [10, 25, 55, 90]
     let breakDurationArray: [Double] = [5, 10 , 15, 20]
-    
-//    let currentTimeBlock = 25*60
-//    let currentBreakTime = 5*60
-    
+
     @Published var timeRemaining: Double = 25*60
     
     var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()

@@ -9,7 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject var pomodoroViewModel = PomodoroViewModel()
+    @ObservedObject var pomodoroViewModel: PomodoroViewModel
+    @State private var showTimerAlert = false
+    @State private var showBreakTimerAlert = false
+    
     
     var body: some View {
         VStack {
@@ -17,10 +20,13 @@ struct ContentView: View {
         
             
             Text("Current State: \(pomodoroViewModel.currentState == .PomodoroTimer ? "Flow" : "Break")")
+               
+               
             
             Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
                 .font(.largeTitle)
                 .padding()
+             
             
             Button(action: {
                 switch pomodoroViewModel.currentState {
@@ -29,7 +35,8 @@ struct ContentView: View {
                     case .stop:
                         pomodoroViewModel.startTimer()
                     case .running:
-                        pomodoroViewModel.stopTimer()
+                        showTimerAlert = true
+
                         
                     }
                     
@@ -38,7 +45,8 @@ struct ContentView: View {
                     case .stop:
                         pomodoroViewModel.startBreak()
                     case .running:
-                        pomodoroViewModel.stopBreak()
+                        showBreakTimerAlert = true
+                        
                     }
                     
                 }
@@ -50,6 +58,34 @@ struct ContentView: View {
             }
             
         }
+        .alert("Finsih earlier", isPresented: $showTimerAlert, actions: {
+            // 1
+            Button(action: {
+                pomodoroViewModel.stopTimer()
+            }) {
+                Text("Yes")
+                   
+            }
+              Button("Cancel", role: .cancel, action: {})
+
+             
+            }, message: {
+              Text("Are you sure you want to finish the round earlier?")
+            })
+        .alert("Skipping the break", isPresented: $showBreakTimerAlert, actions: {
+            // 1
+            Button(action: {
+                pomodoroViewModel.stopBreak()
+            }) {
+                Text("Yes")
+                   
+            }
+              Button("Cancel", role: .cancel, action: {})
+
+             
+            }, message: {
+              Text("Are you sure you want to skip your break earlier?")
+            })
         .toolbar {
             ToolbarItemGroup(placement: .navigation) {
               Menu {
@@ -106,11 +142,11 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}
 
 
 //CHECK MARK
