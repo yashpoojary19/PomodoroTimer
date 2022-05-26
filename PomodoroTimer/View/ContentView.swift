@@ -12,7 +12,7 @@ struct ContentView: View {
     @ObservedObject var pomodoroViewModel: PomodoroViewModel
     @State private var showTimerAlert = false
     @State private var showBreakTimerAlert = false
-    @State var width: CGFloat = 0
+   
     
     var body: some View {
         VStack {
@@ -23,32 +23,54 @@ struct ContentView: View {
               
                 .font(Font.custom("Roboto-Medium", size: 15))
                 .foregroundColor(Color("timerStringColor"))
+                .padding(.top)
                
             ZStack {
                 
                 Circle()
-                    .stroke(Color.black.opacity(0.2), style: StrokeStyle(lineWidth: 10, lineCap: .square, lineJoin: .round))
+                    .stroke(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.elementColor().opacity(0.31) :  pomodoroViewModel.currentBreakState.elementColor().opacity(0.31), style: StrokeStyle(lineWidth: 14, lineCap: .square, lineJoin: .round))
                     .frame(width: 180)
                 
                 Circle()
                     .trim(from: 0, to: pomodoroViewModel.progress)
-                    .stroke(Color.black.opacity(0.5), style: StrokeStyle(lineWidth: 10, lineCap: .round, lineJoin: .round))
+                    .stroke(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.elementColor() :  pomodoroViewModel.currentBreakState.elementColor(), style: StrokeStyle(lineWidth: 14, lineCap: .round, lineJoin: .round))
                     .frame(width: 180, height: 180)
                     .rotationEffect(.init(degrees: -90))
                     .animation(.linear, value: 2)
                 
-                Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
-                    .foregroundColor(Color("timerStringColor"))
-                    .font(Font.custom("RobotoMono-Bold", size: 40))
+                Circle()
+                    .fill(Color.white)
+//                    .fill(Color("timerStopColor").opacity(0.8))
+//                    .fill(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.elementColor().opacity(0.1) :  pomodoroViewModel.currentBreakState.elementColor().opacity(0.1))
+                    .frame(width: 8, height: 8)
+                    .offset(x: 0, y: -90)
+                    .rotationEffect(.init(degrees: pomodoroViewModel.progress * 360))
+                
+                    
+                 
+                VStack {
+                    
+                    Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
+                        .foregroundColor(Color("timerStringColor"))
+                        .font(Font.custom("RobotoMono-Bold", size: 40))
+//                        .padding(.bottom)
+                    
+                    Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.timerText() :  pomodoroViewModel.currentBreakState.timerText())")
+                        .font(Font.custom("Roboto-Medium", size: 12))
+                        .foregroundColor(Color("timerStringColor"))
+                        .offset(x: 0, y: 10)
+                }
+                
+             
     //                .padding()
                  
+               
+                
                
             }
         
                
-//            Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.timerText() :  pomodoroViewModel.currentBreakState.timerText())")
-//                .font(Font.custom("Roboto-Medium", size: 15))
-//                .foregroundColor(Color("timerStringColor"))
+
          
             
             Button(action: {
@@ -90,6 +112,7 @@ struct ContentView: View {
             .background(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.elementColor() :  pomodoroViewModel.currentBreakState.elementColor())
             .clipShape(Capsule())
             .buttonStyle(.borderless)
+            .padding(.bottom)
             
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -185,7 +208,7 @@ struct ContentView: View {
                 
             if pomodoroViewModel.currentTimerState != .stop || pomodoroViewModel.currentBreakState != .stop  {
                 pomodoroViewModel.updateTimer()
-                if pomodoroViewModel.timeRemaining > 0 {
+                if pomodoroViewModel.timeRemaining >= 0 {
                     pomodoroViewModel.timeRemaining -= 1
                     
                 }
