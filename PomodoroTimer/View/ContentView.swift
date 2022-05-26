@@ -12,25 +12,44 @@ struct ContentView: View {
     @ObservedObject var pomodoroViewModel: PomodoroViewModel
     @State private var showTimerAlert = false
     @State private var showBreakTimerAlert = false
-    
+    @State var width: CGFloat = 0
     
     var body: some View {
         VStack {
             
-        
+           
             
             Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? "Focus" : "Break")")
-                .font(Font.custom("Roboto-Medium", size: 20))
+              
+                .font(Font.custom("Roboto-Medium", size: 15))
                 .foregroundColor(Color("timerStringColor"))
                
+            ZStack {
+                
+                Circle()
+                    .stroke(Color.black.opacity(0.2), style: StrokeStyle(lineWidth: 10, lineCap: .square, lineJoin: .round))
+                    .frame(width: 180)
+                
+                Circle()
+                    .trim(from: 0, to: pomodoroViewModel.progress)
+                    .stroke(Color.black.opacity(0.5), style: StrokeStyle(lineWidth: 10, lineCap: .round, lineJoin: .round))
+                    .frame(width: 180, height: 180)
+                    .rotationEffect(.init(degrees: -90))
+                    .animation(.linear, value: 2)
+                
+                Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
+                    .foregroundColor(Color("timerStringColor"))
+                    .font(Font.custom("RobotoMono-Bold", size: 40))
+    //                .padding()
+                 
                
+            }
+        
                
-            
-            Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
-                .foregroundColor(Color("timerStringColor"))
-                .font(Font.custom("RobotoMono-Bold", size: 50))
-                .padding()
-             
+//            Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.timerText() :  pomodoroViewModel.currentBreakState.timerText())")
+//                .font(Font.custom("Roboto-Medium", size: 15))
+//                .foregroundColor(Color("timerStringColor"))
+         
             
             Button(action: {
                 switch pomodoroViewModel.currentState {
@@ -58,15 +77,18 @@ struct ContentView: View {
                 
             }) {
               
-                Text(pomodoroViewModel.currentTimerState == .running || pomodoroViewModel.currentBreakState == .running ? "Stop Timer" : "Start Timer")
-                    .padding(10)
-                    .padding(.horizontal, 10)
-                    .background(Color.green)
-                    .clipShape(Capsule())
+                Text(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.buttonText() :  pomodoroViewModel.currentBreakState.buttonText())
                     .foregroundColor(Color.white)
+                    .frame(minWidth: 160)
+                    .padding([.bottom, .vertical], 10)
+                
+                    
+
                    
                     
             }
+            .background(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.elementColor() :  pomodoroViewModel.currentBreakState.elementColor())
+            .clipShape(Capsule())
             .buttonStyle(.borderless)
             
         }
@@ -158,9 +180,14 @@ struct ContentView: View {
             
         }
         .onReceive(pomodoroViewModel.timer) { time in
+         
+
+                
             if pomodoroViewModel.currentTimerState != .stop || pomodoroViewModel.currentBreakState != .stop  {
+                pomodoroViewModel.updateTimer()
                 if pomodoroViewModel.timeRemaining > 0 {
                     pomodoroViewModel.timeRemaining -= 1
+                    
                 }
             }
             
@@ -172,12 +199,36 @@ struct ContentView: View {
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        let viewModel = PomodoroViewModel()
+        ContentView(pomodoroViewModel: viewModel)
+            .frame(width: 400, height: 300)
+    }
+}
 
 
 //CHECK MARK
 //Unicode: U+2713, UTF-8: E2 9C 93
+
+struct AnimatableCustomFontModifier: ViewModifier, Animatable {
+    var name: String
+    var size: Double
+
+    var animatableData: Double {
+        get { size }
+        set { size = newValue }
+    }
+
+    func body(content: Content) -> some View {
+        content
+            .font(.custom(name, size: size))
+    }
+}
+
+extension View {
+    func animatableFont(name: String, size: Double) -> some View {
+        self.modifier(AnimatableCustomFontModifier(name: name, size: size))
+    }
+}

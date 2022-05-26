@@ -16,7 +16,7 @@ struct PomodoroTimerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(pomodoroViewModel: pomodoroViewModel)
-                .frame(width: 300, height: 200)
+                .frame(width: 400, height: 300)
             
         }
 //        .onChange(of: phase) { newValue in

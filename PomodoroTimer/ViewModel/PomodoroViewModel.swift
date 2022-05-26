@@ -7,6 +7,7 @@
 
 import Foundation
 import UserNotifications
+import SwiftUI
 
 class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
     
@@ -22,6 +23,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     let breakDurationArray: [Double] = [0.1, 5, 10 , 15, 20]
 
     @Published var timeRemaining: Double = 25*60
+    @Published var progress: CGFloat = 1
     
     var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
@@ -32,6 +34,24 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         self.timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
+    func updateTimer() {
+        
+        switch currentState {
+        case .PomodoroTimer:
+            withAnimation(Animation.easeIn(duration: 0.1)) {
+                progress = timeRemaining / timerDuration
+            }
+          
+        case .PomodoroBreak:
+            withAnimation(Animation.easeIn(duration: 0.1)) {
+                progress = timeRemaining / breakTimeDuration
+            }
+          
+        }
+        
+      
+//        progress = (progress < 0 ? 0 : progress)
+    }
     
     func stopTimer() {
         self.timer.upstream.connect().cancel()
