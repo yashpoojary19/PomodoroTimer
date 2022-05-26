@@ -19,12 +19,16 @@ struct ContentView: View {
             
         
             
-            Text("Current State: \(pomodoroViewModel.currentState == .PomodoroTimer ? "Flow" : "Break")")
+            Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? "Focus" : "Break")")
+                .font(Font.custom("Roboto-Medium", size: 20))
+                .foregroundColor(Color("timerStringColor"))
+               
                
                
             
             Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
-                .font(.largeTitle)
+                .foregroundColor(Color("timerStringColor"))
+                .font(Font.custom("RobotoMono-Bold", size: 50))
                 .padding()
              
             
@@ -55,9 +59,19 @@ struct ContentView: View {
             }) {
               
                 Text(pomodoroViewModel.currentTimerState == .running || pomodoroViewModel.currentBreakState == .running ? "Stop Timer" : "Start Timer")
+                    .padding(10)
+                    .padding(.horizontal, 10)
+                    .background(Color.green)
+                    .clipShape(Capsule())
+                    .foregroundColor(Color.white)
+                   
+                    
             }
+            .buttonStyle(.borderless)
             
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color("backgroundColor"))
         .alert("Finsih earlier", isPresented: $showTimerAlert, actions: {
             // 1
             Button(action: {

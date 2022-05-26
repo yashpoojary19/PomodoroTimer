@@ -13,6 +13,10 @@
 		B62C135D283E0D590017FAC3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B62C135C283E0D590017FAC3 /* Preview Assets.xcassets */; };
 		B62C1366283E0DCE0017FAC3 /* PomodoroModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62C1365283E0DCE0017FAC3 /* PomodoroModel.swift */; };
 		B62C1369283E0E510017FAC3 /* PomodoroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62C1368283E0E510017FAC3 /* PomodoroViewModel.swift */; };
+		B62C136F283F66DD0017FAC3 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B62C136C283F66DD0017FAC3 /* Roboto-Medium.ttf */; };
+		B62C1370283F66DD0017FAC3 /* RobotoMono-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B62C136D283F66DD0017FAC3 /* RobotoMono-Medium.ttf */; };
+		B62C1371283F66DD0017FAC3 /* RobotoMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B62C136E283F66DD0017FAC3 /* RobotoMono-Bold.ttf */; };
+		B62C1374283F69980017FAC3 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B62C1373283F69980017FAC3 /* Roboto-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,11 @@
 		B62C135E283E0D590017FAC3 /* PomodoroTimer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PomodoroTimer.entitlements; sourceTree = "<group>"; };
 		B62C1365283E0DCE0017FAC3 /* PomodoroModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroModel.swift; sourceTree = "<group>"; };
 		B62C1368283E0E510017FAC3 /* PomodoroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroViewModel.swift; sourceTree = "<group>"; };
+		B62C136C283F66DD0017FAC3 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		B62C136D283F66DD0017FAC3 /* RobotoMono-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Medium.ttf"; sourceTree = "<group>"; };
+		B62C136E283F66DD0017FAC3 /* RobotoMono-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Bold.ttf"; sourceTree = "<group>"; };
+		B62C1372283F66EF0017FAC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B62C1373283F69980017FAC3 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,11 +65,13 @@
 		B62C1354283E0D550017FAC3 /* PomodoroTimer */ = {
 			isa = PBXGroup;
 			children = (
+				B62C1372283F66EF0017FAC3 /* Info.plist */,
+				B62C136A283F612D0017FAC3 /* View */,
 				B62C1367283E0E410017FAC3 /* ViewModel */,
 				B62C1364283E0DC00017FAC3 /* Model */,
 				B62C1355283E0D550017FAC3 /* PomodoroTimerApp.swift */,
-				B62C1357283E0D550017FAC3 /* ContentView.swift */,
 				B62C1359283E0D590017FAC3 /* Assets.xcassets */,
+				B62C136B283F66C60017FAC3 /* Fonts */,
 				B62C135E283E0D590017FAC3 /* PomodoroTimer.entitlements */,
 				B62C135B283E0D590017FAC3 /* Preview Content */,
 			);
@@ -89,6 +100,25 @@
 				B62C1368283E0E510017FAC3 /* PomodoroViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B62C136A283F612D0017FAC3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B62C1357283E0D550017FAC3 /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B62C136B283F66C60017FAC3 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				B62C136C283F66DD0017FAC3 /* Roboto-Medium.ttf */,
+				B62C136E283F66DD0017FAC3 /* RobotoMono-Bold.ttf */,
+				B62C1373283F69980017FAC3 /* Roboto-Bold.ttf */,
+				B62C136D283F66DD0017FAC3 /* RobotoMono-Medium.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,7 +180,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B62C135D283E0D590017FAC3 /* Preview Assets.xcassets in Resources */,
+				B62C1371283F66DD0017FAC3 /* RobotoMono-Bold.ttf in Resources */,
+				B62C1374283F69980017FAC3 /* Roboto-Bold.ttf in Resources */,
+				B62C1370283F66DD0017FAC3 /* RobotoMono-Medium.ttf in Resources */,
 				B62C135A283E0D590017FAC3 /* Assets.xcassets in Resources */,
+				B62C136F283F66DD0017FAC3 /* Roboto-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +332,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PomodoroTimer/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -325,6 +360,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PomodoroTimer/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
