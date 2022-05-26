@@ -20,12 +20,18 @@ struct ContentView: View {
            
             
             Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? "Focus" : "Break")")
+                
               
                 .font(Font.custom("Roboto-Medium", size: 15))
                 .foregroundColor(Color("timerStringColor"))
                 .padding(.top)
                
             ZStack {
+                
+                Image("timerBG")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 165, height: 165)
                 
                 Circle()
                     .stroke(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.elementColor().opacity(0.31) :  pomodoroViewModel.currentBreakState.elementColor().opacity(0.31), style: StrokeStyle(lineWidth: 14, lineCap: .square, lineJoin: .round))
@@ -53,6 +59,9 @@ struct ContentView: View {
                     Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
                         .foregroundColor(Color("timerStringColor"))
                         .font(Font.custom("RobotoMono-Bold", size: 40))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5 )
+                        .frame(maxWidth: 160)
 //                        .padding(.bottom)
                     
                     Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.timerText() :  pomodoroViewModel.currentBreakState.timerText())")
