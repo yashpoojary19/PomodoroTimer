@@ -196,12 +196,18 @@ struct ContentView: View {
             switch pomodoroViewModel.currentState {
             case .PomodoroTimer:
                 if time == 0 {
-                    pomodoroViewModel.startBreak()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        pomodoroViewModel.startBreak()
+                    }
+                    
                 }
                 
             case .PomodoroBreak:
                 if time == 0 {
-                    pomodoroViewModel.resetTimer()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        pomodoroViewModel.resetTimer()
+                    }
+                   
                 }
                 
             }

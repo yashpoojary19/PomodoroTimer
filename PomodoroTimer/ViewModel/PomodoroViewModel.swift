@@ -78,6 +78,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     }
     
     func startBreak() {
+        progress = 1
         currentBreakTimeDuration = breakTimeDuration
         currentState = .PomodoroBreak
         currentBreakState = .running
