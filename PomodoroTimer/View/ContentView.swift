@@ -16,16 +16,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            
-           
-            
-            Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? "Focus" : "Break")")
-                
-              
-                .font(Font.custom("Roboto-Medium", size: 15))
-                .foregroundColor(Color("timerStringColor"))
-                .padding(.top)
-               
+
             ZStack {
                 
                 Image("timerBG")
@@ -56,9 +47,15 @@ struct ContentView: View {
                  
                 VStack {
                     
+                    Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? "Focus" : "Break")")
+                        .font(Font.custom("Roboto-Medium", size: 12))
+                        .foregroundColor(Color("timerStringColor"))
+
+                     
+                    
                     Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
                         .foregroundColor(Color("timerStringColor"))
-                        .font(Font.custom("RobotoMono-Bold", size: 40))
+                        .font(Font.custom("RobotoMono-Bold", size: 35))
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
                         .frame(maxWidth: 120)
@@ -66,7 +63,7 @@ struct ContentView: View {
                     
                     Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.timerText() :  pomodoroViewModel.currentBreakState.timerText())")
                         .font(Font.custom("Roboto-Medium", size: 12))
-                        .foregroundColor(Color("timerStringColor"))
+                        .foregroundColor(Color("timerSubTextColor"))
                         .offset(x: 0, y: 10)
                 }
                 
