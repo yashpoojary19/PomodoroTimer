@@ -48,3 +48,9 @@ struct PomodoroTimerApp: App {
 //        }
     }
 }
+
+/*
+ Notes:
+ Break time updating to focus time when timer is stopped
+ Timer not counting down to 0 seconds
+ */

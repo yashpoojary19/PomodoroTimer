@@ -60,8 +60,8 @@ struct ContentView: View {
                         .foregroundColor(Color("timerStringColor"))
                         .font(Font.custom("RobotoMono-Bold", size: 40))
                         .lineLimit(1)
-                        .minimumScaleFactor(0.5 )
-                        .frame(maxWidth: 160)
+                        .minimumScaleFactor(0.5)
+                        .frame(maxWidth: 120)
 //                        .padding(.bottom)
                     
                     Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.timerText() :  pomodoroViewModel.currentBreakState.timerText())")
