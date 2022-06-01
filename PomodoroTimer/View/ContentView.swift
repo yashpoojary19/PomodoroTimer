@@ -12,11 +12,11 @@ struct ContentView: View {
     @ObservedObject var pomodoroViewModel: PomodoroViewModel
     @State private var showTimerAlert = false
     @State private var showBreakTimerAlert = false
-   
+    
     
     var body: some View {
         VStack {
-
+            
             ZStack {
                 
                 Image("timerBG")
@@ -37,21 +37,21 @@ struct ContentView: View {
                 
                 Circle()
                     .fill(Color.white)
-//                    .fill(Color("timerStopColor").opacity(0.8))
-//                    .fill(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.elementColor().opacity(0.1) :  pomodoroViewModel.currentBreakState.elementColor().opacity(0.1))
+                //                    .fill(Color("timerStopColor").opacity(0.8))
+                //                    .fill(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.elementColor().opacity(0.1) :  pomodoroViewModel.currentBreakState.elementColor().opacity(0.1))
                     .frame(width: 8, height: 8)
                     .offset(x: 0, y: -90)
                     .rotationEffect(.init(degrees: pomodoroViewModel.progress * 360))
                 
-                    
-                 
+                
+                
                 VStack {
                     
                     Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? "Focus" : "Break")")
                         .font(Font.custom("Roboto-Medium", size: 12))
                         .foregroundColor(Color("timerStringColor"))
-
-                     
+                    
+                    
                     
                     Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
                         .foregroundColor(Color("timerStringColor"))
@@ -59,25 +59,37 @@ struct ContentView: View {
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
                         .frame(maxWidth: 120)
-//                        .padding(.bottom)
+                    //                        .padding(.bottom)
                     
                     Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.timerText() :  pomodoroViewModel.currentBreakState.timerText())")
                         .font(Font.custom("Roboto-Medium", size: 12))
                         .foregroundColor(Color("timerSubTextColor"))
                         .offset(x: 0, y: 10)
                 }
+                .alert(isPresented: $showTimerAlert) {
+                    Alert(
+                        title: Text("Finish earlier"),
+                        message: Text("Are you sure you want to finish the round earlier?"),
+                        primaryButton: .default(Text("Yes"), action: {
+                            pomodoroViewModel.stopTimer()
+                        }),
+                        secondaryButton: .cancel(Text("Cancel"), action: {
+                            //
+                        })
+                    )
+                }
                 
-             
-    //                .padding()
-                 
-               
                 
-               
+                //                .padding()
+                
+                
+                
+                
             }
-        
-               
-
-         
+            
+            
+            
+            
             
             Button(action: {
                 switch pomodoroViewModel.currentState {
@@ -99,70 +111,85 @@ struct ContentView: View {
                         
                     }
                     
+                    
                 }
                 
                 
             }) {
-              
+                
                 Text(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.buttonText() :  pomodoroViewModel.currentBreakState.buttonText())
                     .foregroundColor(Color.white)
                     .frame(minWidth: 160)
                     .padding([.bottom, .vertical], 10)
                 
-                    
-
-                   
-                    
+                
+                
+                
+                
+            }
+            .alert(isPresented: $showBreakTimerAlert) {
+                Alert(
+                    title: Text("Skipping the break"),
+                    message: Text("Are you sure you want to skip your break earlier?"),
+                    primaryButton: .default(Text("Yes"), action: {
+                        pomodoroViewModel.stopBreak()
+                    }),
+                    secondaryButton: .cancel(Text("Cancel"), action: {
+                        //
+                    })
+                )
             }
             .background(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.elementColor() :  pomodoroViewModel.currentBreakState.elementColor())
             .clipShape(Capsule())
             .buttonStyle(.borderless)
             .padding(.bottom)
             
+            
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color("backgroundColor"))
-        .alert("Finish earlier", isPresented: $showTimerAlert, actions: {
-            // 1
-            Button(action: {
-                pomodoroViewModel.stopTimer()
-            }) {
-                Text("Yes")
-                   
-            }
-              Button("Cancel", role: .cancel, action: {})
-
-             
-            }, message: {
-              Text("Are you sure you want to finish the round earlier?")
-            })
-        .alert("Skipping the break", isPresented: $showBreakTimerAlert, actions: {
-            // 1
-            Button(action: {
-                pomodoroViewModel.stopBreak()
-            }) {
-                Text("Yes")
-                   
-            }
-              Button("Cancel", role: .cancel, action: {})
-
-             
-            }, message: {
-              Text("Are you sure you want to skip your break earlier?")
-            })
+        
+        //        .alert("Finish earlier", isPresented: $showTimerAlert, actions: {
+        //            // 1
+        //            Button(action: {
+        //                pomodoroViewModel.stopTimer()
+        //            }) {
+        //                Text("Yes")
+        //
+        //            }
+        //              Button("Cancel", role: .cancel, action: {})
+        //
+        //
+        //            }, message: {
+        //              Text("Are you sure you want to finish the round earlier?")
+        //            })
+        //        .alert("Skipping the break", isPresented: $showBreakTimerAlert, actions: {
+        //            // 1
+        //            Button(action: {
+        //                pomodoroViewModel.stopBreak()
+        //            }) {
+        //                Text("Yes")
+        //
+        //            }
+        //              Button("Cancel", role: .cancel, action: {})
+        //
+        //
+        //            }, message: {
+        //              Text("Are you sure you want to skip your break earlier?")
+        //            })
         .toolbar {
             ToolbarItemGroup(placement: .navigation) {
-              Menu {
-                  ForEach(pomodoroViewModel.timerDurationArray, id: \.self) { timerDuration in
-                           Button(action: {
-                               pomodoroViewModel.timerDuration = timerDuration * 60
-                               if pomodoroViewModel.currentTimerState != .running && pomodoroViewModel.currentBreakState != .running && pomodoroViewModel.currentState == .PomodoroTimer {
-                                   pomodoroViewModel.timeRemaining = timerDuration * 60
-                               }
-                           }) {
-                               Text("\(pomodoroViewModel.timerDuration == timerDuration * 60 ? "✓" : "   ") \(pomodoroViewModel.forTrailingZero(temp: timerDuration)) min")
-                                   .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-                        
+                Menu {
+                    ForEach(pomodoroViewModel.timerDurationArray, id: \.self) { timerDuration in
+                        Button(action: {
+                            pomodoroViewModel.timerDuration = timerDuration * 60
+                            if pomodoroViewModel.currentTimerState != .running && pomodoroViewModel.currentBreakState != .running && pomodoroViewModel.currentState == .PomodoroTimer {
+                                pomodoroViewModel.timeRemaining = timerDuration * 60
+                            }
+                        }) {
+                            Text("\(pomodoroViewModel.timerDuration == timerDuration * 60 ? "✓" : "   ") \(pomodoroViewModel.forTrailingZero(temp: timerDuration)) min")
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+                            
                         }
                     }
                     
@@ -171,26 +198,27 @@ struct ContentView: View {
                 }
                 
                 Menu {
-                  
-                        ForEach(pomodoroViewModel.breakDurationArray, id: \.self) { breakDuration in
                     
-                                 Button(action: {
-                                     pomodoroViewModel.breakTimeDuration = breakDuration * 60
-                                     if pomodoroViewModel.currentTimerState != .running && pomodoroViewModel.currentBreakState != .running && pomodoroViewModel.currentState == .PomodoroBreak {
-                                         pomodoroViewModel.timeRemaining = breakDuration * 60
-                                     }
-                                 }) {
-                                     Text("\(pomodoroViewModel.breakTimeDuration == breakDuration * 60 ? "✓" : "   ") \(pomodoroViewModel.forTrailingZero(temp: breakDuration)) min")
-                                    
-                              }
-                     
+                    ForEach(pomodoroViewModel.breakDurationArray, id: \.self) { breakDuration in
+                        
+                        Button(action: {
+                            pomodoroViewModel.breakTimeDuration = breakDuration * 60
+                            if pomodoroViewModel.currentTimerState != .running && pomodoroViewModel.currentBreakState != .running && pomodoroViewModel.currentState == .PomodoroBreak {
+                                pomodoroViewModel.timeRemaining = breakDuration * 60
+                            }
+                        }) {
+                            Text("\(pomodoroViewModel.breakTimeDuration == breakDuration * 60 ? "✓" : "   ") \(pomodoroViewModel.forTrailingZero(temp: breakDuration)) min")
+                            
+                        }
+                        
                     }
-                
-                  } label: {
-                      Text("Break Duration")
-                  }
+                    
+                } label: {
+                    Text("Break Duration")
+                }
             }
-         }
+        }
+        
         .onChange(of: pomodoroViewModel.timeRemaining) { time in
             
             switch pomodoroViewModel.currentState {
@@ -207,16 +235,16 @@ struct ContentView: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                         pomodoroViewModel.resetTimer()
                     }
-                   
+                    
                 }
                 
             }
             
         }
         .onReceive(pomodoroViewModel.timer) { time in
-         
-
-                
+            
+            
+            
             if pomodoroViewModel.currentTimerState != .stop || pomodoroViewModel.currentBreakState != .stop  {
                 pomodoroViewModel.updateTimer()
                 if pomodoroViewModel.timeRemaining >= 0 {
@@ -229,6 +257,9 @@ struct ContentView: View {
         .onAppear {
             pomodoroViewModel.currentTimerState = .stop
         }
+        
+        
+        
         
     }
 }
@@ -249,12 +280,12 @@ struct ContentView_Previews: PreviewProvider {
 struct AnimatableCustomFontModifier: ViewModifier, Animatable {
     var name: String
     var size: Double
-
+    
     var animatableData: Double {
         get { size }
         set { size = newValue }
     }
-
+    
     func body(content: Content) -> some View {
         content
             .font(.custom(name, size: size))
