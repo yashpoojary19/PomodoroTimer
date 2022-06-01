@@ -29,6 +29,16 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     @Published var progress: CGFloat = 1
     
     var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+//    var breakTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    func resetTimer() {
+        self.timer.upstream.connect().cancel()
+        currentTimerDuration = timerDuration
+        currentState = .PomodoroTimer
+        currentTimerState = PomodoroTimer.stop
+        timeRemaining = currentTimerDuration
+        progress = 1
+    }
 
     func startTimer() {
         currentTimerDuration = timerDuration
@@ -54,7 +64,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         }
         
       
-//        progress = (progress < 0 ? 0 : progress)
+
     }
     
     func stopTimer() {

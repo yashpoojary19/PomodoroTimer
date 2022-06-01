@@ -205,7 +205,7 @@ struct ContentView: View {
                 
             case .PomodoroBreak:
                 if time == 0 {
-                    pomodoroViewModel.startTimer()
+                    pomodoroViewModel.resetTimer()
                 }
                 
             }
