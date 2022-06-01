@@ -22,8 +22,8 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     @Published var currentTimerDuration: Double = 0.1*60
     @Published var currentBreakTimeDuration: Double = 0.1*60
     
-    let timerDurationArray: [Double] = [0.1, 10, 25, 55, 90]
-    let breakDurationArray: [Double] = [0.1, 5, 10 , 15, 20]
+    let timerDurationArray: [Double] = [0.1, 1, 10, 25, 55, 90]
+    let breakDurationArray: [Double] = [0.1, 1, 5, 10 , 15, 20]
 
     @Published var timeRemaining: Double = 0.1*60
     @Published var progress: CGFloat = 1
@@ -45,6 +45,8 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         currentState = .PomodoroTimer
         currentTimerState = PomodoroTimer.running
         timeRemaining = currentTimerDuration
+        
+        
         self.timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
@@ -53,12 +55,12 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         switch currentState {
         case .PomodoroTimer:
             withAnimation(Animation.easeIn(duration: 0.4)) {
-                progress = timeRemaining / currentTimerDuration
+                progress = (timeRemaining - 1) / currentTimerDuration
             }
           
         case .PomodoroBreak:
             withAnimation(Animation.easeIn(duration: 0.4)) {
-                progress = timeRemaining / currentTimerDuration
+                progress = (timeRemaining - 1) / currentBreakTimeDuration
             }
           
         }
@@ -87,6 +89,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         self.timer.upstream.connect().cancel()
         currentBreakState = .stop
         currentState = .PomodoroTimer
+        currentTimerState = .stop
         timeRemaining = timerDuration
         progress = 1
     }

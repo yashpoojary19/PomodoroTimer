@@ -87,7 +87,6 @@ struct ContentView: View {
                         pomodoroViewModel.startTimer()
                     case .running:
                         showTimerAlert = true
-
                         
                     }
                     
@@ -123,7 +122,7 @@ struct ContentView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color("backgroundColor"))
-        .alert("Finsih earlier", isPresented: $showTimerAlert, actions: {
+        .alert("Finish earlier", isPresented: $showTimerAlert, actions: {
             // 1
             Button(action: {
                 pomodoroViewModel.stopTimer()
@@ -157,7 +156,7 @@ struct ContentView: View {
                   ForEach(pomodoroViewModel.timerDurationArray, id: \.self) { timerDuration in
                            Button(action: {
                                pomodoroViewModel.timerDuration = timerDuration * 60
-                               if pomodoroViewModel.currentTimerState != .running && pomodoroViewModel.currentBreakState != .running {
+                               if pomodoroViewModel.currentTimerState != .running && pomodoroViewModel.currentBreakState != .running && pomodoroViewModel.currentState == .PomodoroTimer {
                                    pomodoroViewModel.timeRemaining = timerDuration * 60
                                }
                            }) {
@@ -177,7 +176,7 @@ struct ContentView: View {
                     
                                  Button(action: {
                                      pomodoroViewModel.breakTimeDuration = breakDuration * 60
-                                     if pomodoroViewModel.currentTimerState != .running && pomodoroViewModel.currentBreakState != .running {
+                                     if pomodoroViewModel.currentTimerState != .running && pomodoroViewModel.currentBreakState != .running && pomodoroViewModel.currentState == .PomodoroBreak {
                                          pomodoroViewModel.timeRemaining = breakDuration * 60
                                      }
                                  }) {
