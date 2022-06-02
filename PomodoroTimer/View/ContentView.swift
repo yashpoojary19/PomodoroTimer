@@ -216,6 +216,14 @@ struct ContentView: View {
                 } label: {
                     Text("Break Duration")
                 }
+                
+                Button(action: {
+                    if let window = NSApplication.shared.windows.first {
+                        window.close()
+                    }
+                }) {
+                    Text("Quit Timer")
+                }
             }
         }
         
