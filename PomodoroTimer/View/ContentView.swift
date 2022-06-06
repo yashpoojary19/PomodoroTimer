@@ -51,14 +51,17 @@ struct ContentView: View {
                         .font(Font.custom("Roboto-Medium", size: 12))
                         .foregroundColor(Color("timerStringColor"))
                     
+//                    
+//                    
+//                    Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
+//                        .foregroundColor(Color("timerStringColor"))
+//                        .font(Font.custom("RobotoMono-Bold", size: 35))
+//                        .lineLimit(1)
+//                        .minimumScaleFactor(0.5)
+//                        .frame(maxWidth: 120)
                     
+                    ClockView()
                     
-                    Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
-                        .foregroundColor(Color("timerStringColor"))
-                        .font(Font.custom("RobotoMono-Bold", size: 35))
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.5)
-                        .frame(maxWidth: 120)
                     //                        .padding(.bottom)
                     
                     Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.timerText() :  pomodoroViewModel.currentBreakState.timerText())")

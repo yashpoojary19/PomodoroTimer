@@ -17,6 +17,12 @@
 		B62C1370283F66DD0017FAC3 /* RobotoMono-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B62C136D283F66DD0017FAC3 /* RobotoMono-Medium.ttf */; };
 		B62C1371283F66DD0017FAC3 /* RobotoMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B62C136E283F66DD0017FAC3 /* RobotoMono-Bold.ttf */; };
 		B62C1374283F69980017FAC3 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B62C1373283F69980017FAC3 /* Roboto-Bold.ttf */; };
+		B6C16316284B4A2D00551F2E /* FlipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C1630F284B4A2D00551F2E /* FlipView.swift */; };
+		B6C16317284B4A2D00551F2E /* ClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C16310284B4A2D00551F2E /* ClockView.swift */; };
+		B6C16318284B4A2D00551F2E /* SingleFlipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C16311284B4A2D00551F2E /* SingleFlipView.swift */; };
+		B6C1631A284B4A2D00551F2E /* FlipViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C16314284B4A2D00551F2E /* FlipViewModel.swift */; };
+		B6C1631B284B4A2D00551F2E /* ClockViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C16315284B4A2D00551F2E /* ClockViewModel.swift */; };
+		B6C1631D284B4A8D00551F2E /* DateFormatter+TimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C1631C284B4A8D00551F2E /* DateFormatter+TimeFormatter.swift */; };
 		B6C5F5772847745E008A7F04 /* RobotoMono-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6C5F5752847745D008A7F04 /* RobotoMono-SemiBold.ttf */; };
 		B6C5F5782847745E008A7F04 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6C5F5762847745E008A7F04 /* Roboto-Regular.ttf */; };
 /* End PBXBuildFile section */
@@ -35,6 +41,12 @@
 		B62C136E283F66DD0017FAC3 /* RobotoMono-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Bold.ttf"; sourceTree = "<group>"; };
 		B62C1372283F66EF0017FAC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B62C1373283F69980017FAC3 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		B6C1630F284B4A2D00551F2E /* FlipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipView.swift; sourceTree = "<group>"; };
+		B6C16310284B4A2D00551F2E /* ClockView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClockView.swift; sourceTree = "<group>"; };
+		B6C16311284B4A2D00551F2E /* SingleFlipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleFlipView.swift; sourceTree = "<group>"; };
+		B6C16314284B4A2D00551F2E /* FlipViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipViewModel.swift; sourceTree = "<group>"; };
+		B6C16315284B4A2D00551F2E /* ClockViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClockViewModel.swift; sourceTree = "<group>"; };
+		B6C1631C284B4A8D00551F2E /* DateFormatter+TimeFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+TimeFormatter.swift"; sourceTree = "<group>"; };
 		B6C5F5752847745D008A7F04 /* RobotoMono-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-SemiBold.ttf"; sourceTree = "<group>"; };
 		B6C5F5762847745E008A7F04 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -53,6 +65,7 @@
 		B62C1349283E0D550017FAC3 = {
 			isa = PBXGroup;
 			children = (
+				B6C1630D284B4A2000551F2E /* FlipView */,
 				B62C1354283E0D550017FAC3 /* PomodoroTimer */,
 				B62C1353283E0D550017FAC3 /* Products */,
 			);
@@ -125,6 +138,35 @@
 				B62C136D283F66DD0017FAC3 /* RobotoMono-Medium.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		B6C1630D284B4A2000551F2E /* FlipView */ = {
+			isa = PBXGroup;
+			children = (
+				B6C16313284B4A2D00551F2E /* ViewModels */,
+				B6C1630E284B4A2D00551F2E /* Views */,
+			);
+			path = FlipView;
+			sourceTree = "<group>";
+		};
+		B6C1630E284B4A2D00551F2E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B6C1630F284B4A2D00551F2E /* FlipView.swift */,
+				B6C16310284B4A2D00551F2E /* ClockView.swift */,
+				B6C16311284B4A2D00551F2E /* SingleFlipView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B6C16313284B4A2D00551F2E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B6C16314284B4A2D00551F2E /* FlipViewModel.swift */,
+				B6C16315284B4A2D00551F2E /* ClockViewModel.swift */,
+				B6C1631C284B4A8D00551F2E /* DateFormatter+TimeFormatter.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,10 +245,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6C16316284B4A2D00551F2E /* FlipView.swift in Sources */,
+				B6C16317284B4A2D00551F2E /* ClockView.swift in Sources */,
 				B62C1366283E0DCE0017FAC3 /* PomodoroModel.swift in Sources */,
 				B62C1369283E0E510017FAC3 /* PomodoroViewModel.swift in Sources */,
+				B6C1631D284B4A8D00551F2E /* DateFormatter+TimeFormatter.swift in Sources */,
+				B6C16318284B4A2D00551F2E /* SingleFlipView.swift in Sources */,
 				B62C1358283E0D550017FAC3 /* ContentView.swift in Sources */,
+				B6C1631A284B4A2D00551F2E /* FlipViewModel.swift in Sources */,
 				B62C1356283E0D550017FAC3 /* PomodoroTimerApp.swift in Sources */,
+				B6C1631B284B4A2D00551F2E /* ClockViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

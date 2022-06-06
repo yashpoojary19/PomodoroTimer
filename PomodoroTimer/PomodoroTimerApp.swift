@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 @main
 struct PomodoroTimerApp: App {
     
@@ -94,6 +95,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             button.action = #selector(togglePopover(_:))
         }
         
+        
         self.popover = NSPopover()
         self.popover.contentSize = NSSize(width: 300, height: 300)
         self.popover.behavior = .transient
@@ -116,6 +118,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             if popover.isShown {
                 self.popover.performClose(sender)
             } else {
+                
 //                popover.show(relativeTo: .init(origin: CGPoint(x: 500, y: 500), size: button.bounds.size), of: button, preferredEdge: .maxY)
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
             }
