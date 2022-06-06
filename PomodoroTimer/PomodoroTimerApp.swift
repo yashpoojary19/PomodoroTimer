@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AppKit
 
 
 @main
@@ -66,70 +67,51 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     @MainActor func applicationDidFinishLaunching(_ aNotification: Notification) {
         
         self.pomodoroViewModel = PomodoroViewModel()
-        //         Create the SwiftUI view that provides the window contents.
+      
         let contentView = ContentView(pomodoroViewModel: pomodoroViewModel)
         
         
                 window = NSWindow(
                     contentRect: NSRect(x: 0, y: 0, width: 400, height: 300),
-                    styleMask: [.titled, .closable, .fullScreen],
+                    styleMask: [.titled, .closable, .fullScreen, .unifiedTitleAndToolbar],
                     backing: .buffered,
                     defer: false)
         
                 window.center()
                 window.isReleasedWhenClosed = false
                 window.title = "Pomodoro Focus Timer"
+                window.toolbarStyle = .unified
                 window.makeKeyAndOrderFront(nil)
-                window.toolbarStyle = .automatic
+               
                 window.contentView = NSHostingView(rootView: contentView)
         
+        
+            window.toolbar = NSToolbar()
+     
+        
+        let toolbarButtons = NSHostingView(rootView: ToolBarButton(pomodoroViewModel: pomodoroViewModel))
+        toolbarButtons.frame.size = toolbarButtons.fittingSize
+
+        let titlebarAccessory = NSTitlebarAccessoryViewController()
+        titlebarAccessory.view = toolbarButtons
+        titlebarAccessory.layoutAttribute = .trailing
+        
+        window.addTitlebarAccessoryViewController(titlebarAccessory)
         
         
                 window.contentViewController?.view.window?.makeKey()
         
-        // Create the status item
+   
         self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
         
         if let button = self.statusBarItem.button {
             button.image = NSImage(systemSymbolName: "timer", accessibilityDescription: "timer icon")
             button.action = #selector(togglePopover(_:))
         }
-        
-        
-//        self.popover = NSPopover()
-//        self.popover.contentSize = NSSize(width: 300, height: 300)
-//        self.popover.behavior = .transient
-//        self.popover.delegate = self
-//        self.popover.contentViewController = NSHostingController(rootView: contentView)
-//        let detach = NSSelectorFromString("detach")
-//        if popover.responds(to: detach) {
-//            popover.perform(detach)
-//        }
+  
         
     }
-    
-//    @objc func togglePopover(_ sender: AnyObject?) {
-//
-//
-//
-//
-//
-////        if let button = statusBarItem.button {
-////            if window.isShown {
-////                self.popover.performClose(sender)
-////            } else {
-////
-//////                popover.show(relativeTo: .init(origin: CGPoint(x: 500, y: 500), size: button.bounds.size), of: button, preferredEdge: .maxY)
-//////                popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-////            }
-////        }
-//
-//    }
-    
-//    func popoverShouldDetach(_ popover: NSPopover) -> Bool {
-//        return true
-//    }
-//
+
     
   
     
@@ -141,30 +123,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
                 window.orderOut(self)
     
             } else {
-    
+                window.level = .floating
+                
                 window.orderFront(self)
+//                window.makeKeyAndOrderFront(self)
+                
             }
     
     
-    
-    //        if let appWindow = NSApplication.shared.windows.first {
-    
-    
-    
-    
-    
-    
-                //            if window.i
-    
-                //            window.close()
-    //        }
-    //                if let button = self.statusBarItem.button {
-    //                    if self.popover.isShown {
-    //                        self.popover.performClose(sender)
-    //                    } else {
-    //                        self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-    //                    }
-    //                }
+
         }
     
 }
@@ -182,3 +149,135 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
  show navigation bar
  
  */
+
+struct ToolBarButton: View {
+    @ObservedObject var pomodoroViewModel: PomodoroViewModel
+    
+ 
+    var body: some View {
+        
+    
+        if #available(macOS 12.0, *) {
+            Menu {
+                Menu {
+                    ForEach(pomodoroViewModel.timerDurationArray, id: \.self) { timerDuration in
+                        Button(action: {
+                            pomodoroViewModel.timerDuration = timerDuration * 60
+                            if pomodoroViewModel.currentTimerState != .running && pomodoroViewModel.currentBreakState != .running && pomodoroViewModel.currentState == .PomodoroTimer {
+                                pomodoroViewModel.timeRemaining = timerDuration * 60
+                            }
+                        }) {
+                            Text("\(pomodoroViewModel.timerDuration == timerDuration * 60 ? "✓" : "   ") \(pomodoroViewModel.forTrailingZero(temp: timerDuration)) min")
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+                            
+                        }
+                    }
+                    
+                } label: {
+                    Text("Flow Duration")
+                }
+                
+                Menu {
+                    
+                    ForEach(pomodoroViewModel.breakDurationArray, id: \.self) { breakDuration in
+                        
+                        Button(action: {
+                            pomodoroViewModel.breakTimeDuration = breakDuration * 60
+                            if pomodoroViewModel.currentTimerState != .running && pomodoroViewModel.currentBreakState != .running && pomodoroViewModel.currentState == .PomodoroBreak {
+                                pomodoroViewModel.timeRemaining = breakDuration * 60
+                            }
+                        }) {
+                            Text("\(pomodoroViewModel.breakTimeDuration == breakDuration * 60 ? "✓" : "   ") \(pomodoroViewModel.forTrailingZero(temp: breakDuration)) min")
+                            
+                        }
+                        
+                    }
+                    
+                } label: {
+                    Text("Break Duration")
+                }
+                
+                Button(action: {
+//                    if let window = NSApplication.shared.windows.first {
+//                        window.performClose(self)
+//                    }
+                    
+                    NSApplication.shared.terminate(nil)
+                }) {
+                    Text("Quit Timer")
+                }
+                
+            }
+            
+            
+            label : {
+                Text("Settings")
+                    
+            }
+            .padding(.trailing)
+            .menuIndicator(.hidden)
+        } else {
+            Menu {
+                Menu {
+                    ForEach(pomodoroViewModel.timerDurationArray, id: \.self) { timerDuration in
+                        Button(action: {
+                            pomodoroViewModel.timerDuration = timerDuration * 60
+                            if pomodoroViewModel.currentTimerState != .running && pomodoroViewModel.currentBreakState != .running && pomodoroViewModel.currentState == .PomodoroTimer {
+                                pomodoroViewModel.timeRemaining = timerDuration * 60
+                            }
+                        }) {
+                            Text("\(pomodoroViewModel.timerDuration == timerDuration * 60 ? "✓" : "   ") \(pomodoroViewModel.forTrailingZero(temp: timerDuration)) min")
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+                            
+                        }
+                    }
+                    
+                } label: {
+                    Text("Flow Duration")
+                }
+                
+                Menu {
+                    
+                    ForEach(pomodoroViewModel.breakDurationArray, id: \.self) { breakDuration in
+                        
+                        Button(action: {
+                            pomodoroViewModel.breakTimeDuration = breakDuration * 60
+                            if pomodoroViewModel.currentTimerState != .running && pomodoroViewModel.currentBreakState != .running && pomodoroViewModel.currentState == .PomodoroBreak {
+                                pomodoroViewModel.timeRemaining = breakDuration * 60
+                            }
+                        }) {
+                            Text("\(pomodoroViewModel.breakTimeDuration == breakDuration * 60 ? "✓" : "   ") \(pomodoroViewModel.forTrailingZero(temp: breakDuration)) min")
+                            
+                        }
+                        
+                    }
+                    
+                } label: {
+                    Text("Break Duration")
+                }
+                
+                Button(action: {
+                    if let window = NSApplication.shared.windows.first {
+                        window.performClose(self)
+                    }
+                }) {
+                    Text("Quit Timer")
+                }
+                
+            }
+            
+            
+            label : {
+                Text("Settings")
+            }
+          
+        }
+    
+    
+    }
+}
+   
+       
+    
+
+
