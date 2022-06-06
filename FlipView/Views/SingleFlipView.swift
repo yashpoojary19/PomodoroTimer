@@ -12,10 +12,6 @@ struct SingleFlipView: View {
     
     var body: some View {
         Text(text)
-//            .font(.system(size: 20))
-//            .fontWeight(.heavy)
-//            .foregroundColor(.black)
-//            .frame(width: 20, height: 50)
             .frame(maxWidth: 20)
             .foregroundColor(Color("timerStringColor"))
             .font(Font.custom("RobotoMono-Bold", size: 35))

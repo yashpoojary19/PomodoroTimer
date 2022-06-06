@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ClockView: View {
     
-    let viewModel = ClockViewModel()
+    let viewModel = PomodoroViewModel()
     
     var body: some View {
         HStack(spacing: 0) {
@@ -13,9 +13,7 @@ struct ClockView: View {
                     Text(":")
                         .foregroundColor(Color("timerStringColor"))
                         .font(Font.custom("RobotoMono-Bold", size: 35))
-         
-                
-               
+    
             }
             HStack(spacing: 5) {
                 FlipView(viewModel: viewModel.flipViewModels[2])
@@ -29,8 +27,7 @@ struct ClockView: View {
                 FlipView(viewModel: viewModel.flipViewModels[5])
             }
         }
-        .allowsTightening(true)
-//        .frame(maxWidth: 120)
+  
         
     }
     

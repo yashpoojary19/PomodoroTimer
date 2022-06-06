@@ -1,16 +1,16 @@
 import Foundation
-import Combine
+
 
 class ClockViewModel {
 
     init() {
-        setupTimer()
+//        setupTimer()
     }
 
     private(set) lazy var flipViewModels = { (0...5).map { _ in FlipViewModel() } }()
 
    
-    var date = Date(timeIntervalSince1970: 0.5 * 60.0 * 60.0)
+    var date = Date(timeIntervalSince1970: 60.0 * 60.0)
     
     
     private func setupTimer() {
@@ -22,12 +22,8 @@ class ClockViewModel {
                 self.date  = currentCalendar.date(byAdding: .second, value: -1, to: self.date)!
                 let formatter = DateFormatter()
                 formatter.timeZone = TimeZone(abbreviation: "UTC")
-                
-                
                 formatter.dateFormat = "HHmmss"
-              
                 let new = formatter.string(from: self.date)
-//                print(new)
                 self.setTimeInViewModels(time: new)
                }
             
@@ -39,7 +35,6 @@ class ClockViewModel {
         }
     }
 
-    private var cancellables = Set<AnyCancellable>()
-    private let timeFormatter = DateFormatter.timeFormatter
+    
 
 }

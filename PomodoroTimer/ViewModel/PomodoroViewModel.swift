@@ -11,6 +11,15 @@ import SwiftUI
 
 class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
     
+
+    
+    private(set) lazy var flipViewModels = { (0...5).map { _ in FlipViewModel() } }()
+
+    
+    var date = Date(timeIntervalSince1970: 1.0 * 60.0)
+    
+    
+    
    
     @Published var currentState = TimerState.PomodoroTimer
     @Published var currentTimerState = PomodoroTimer.stop
@@ -28,11 +37,31 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     @Published var timeRemaining: Double = 0.1*60
     @Published var progress: CGFloat = 1
     
-    var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-//    var breakTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    
+    
+//    var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    var timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in })
+
+    
+        
+    private func setupTimer() {
+    timer =        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (Timer) in
+                let currentCalendar = Calendar.current
+                self.date  = currentCalendar.date(byAdding: .second, value: -1, to: self.date)!
+                let formatter = DateFormatter()
+                formatter.timeZone = TimeZone(abbreviation: "UTC")
+                formatter.dateFormat = "HHmmss"
+                let new = formatter.string(from: self.date)
+            print(new)
+                self.setTimeInViewModels(time: new)
+               }
+            
+        }
     
     func resetTimer() {
-        self.timer.upstream.connect().cancel()
+        self.timer.invalidate()
+//        self.timer.upstream.connect().cancel()
         currentTimerDuration = timerDuration
         currentState = .PomodoroTimer
         currentTimerState = PomodoroTimer.stop
@@ -41,13 +70,14 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     }
 
     func startTimer() {
+        setupTimer()
         currentTimerDuration = timerDuration
         currentState = .PomodoroTimer
         currentTimerState = PomodoroTimer.running
         timeRemaining = currentTimerDuration
         
-        
-        self.timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+//        setupTimer()
+//        self.timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
     func updateTimer() {
@@ -69,8 +99,10 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
 
     }
     
+    
+    
     func stopTimer() {
-        self.timer.upstream.connect().cancel()
+        self.timer.invalidate()
         timeRemaining = breakTimeDuration
         currentTimerState = .stop
         currentState = .PomodoroBreak
@@ -83,11 +115,12 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         currentState = .PomodoroBreak
         currentBreakState = .running
         timeRemaining = currentBreakTimeDuration
-        timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+        setupTimer()
+//        timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     
     func stopBreak() {
-        self.timer.upstream.connect().cancel()
+        self.timer.invalidate()
         currentBreakState = .stop
         currentState = .PomodoroTimer
         currentTimerState = .stop
@@ -111,6 +144,11 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
             
         }
     
+    private func setTimeInViewModels(time: String) {
+        zip(time, flipViewModels).forEach { number, viewModel in
+            viewModel.text = "\(number)"
+        }
+    }
         
   
     func forTrailingZero(temp: Double) -> String {
@@ -121,6 +159,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     override init() {
         super.init()
         self.requestNotification()
+     
     }
     
     func requestNotification() {

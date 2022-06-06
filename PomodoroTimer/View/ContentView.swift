@@ -51,8 +51,8 @@ struct ContentView: View {
                         .font(Font.custom("Roboto-Medium", size: 12))
                         .foregroundColor(Color("timerStringColor"))
                     
-//                    
-//                    
+//
+//
 //                    Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
 //                        .foregroundColor(Color("timerStringColor"))
 //                        .font(Font.custom("RobotoMono-Bold", size: 35))
@@ -252,19 +252,19 @@ struct ContentView: View {
             }
             
         }
-        .onReceive(pomodoroViewModel.timer) { time in
-            
-            
-            
-            if pomodoroViewModel.currentTimerState != .stop || pomodoroViewModel.currentBreakState != .stop  {
-                pomodoroViewModel.updateTimer()
-                if pomodoroViewModel.timeRemaining >= 0 {
-                    pomodoroViewModel.timeRemaining -= 1
-                    
-                }
-            }
-            
-        }
+//        .onReceive(pomodoroViewModel.timer) { time in
+//            
+//            
+//            
+//            if pomodoroViewModel.currentTimerState != .stop || pomodoroViewModel.currentBreakState != .stop  {
+//                pomodoroViewModel.updateTimer()
+//                if pomodoroViewModel.timeRemaining >= 0 {
+//                    pomodoroViewModel.timeRemaining -= 1
+//                    
+//                }
+//            }
+//            
+//        }
         .onAppear {
             pomodoroViewModel.currentTimerState = .stop
         }

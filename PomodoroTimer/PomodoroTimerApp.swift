@@ -70,22 +70,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         let contentView = ContentView(pomodoroViewModel: pomodoroViewModel)
         
         
-        //        window = NSWindow(
-        //            contentRect: NSRect(x: 0, y: 0, width: 400, height: 300),
-        //            styleMask: [.titled, .closable, .fullScreen],
-        //            backing: .buffered,
-        //            defer: false)
-        //
-        //        window.center()
-        //        window.isReleasedWhenClosed = false
-        //        window.title = "Pomodoro Focus Timer"
-        //        window.makeKeyAndOrderFront(nil)
-        //        window.toolbarStyle = .automatic
-        //        window.contentView = NSHostingView(rootView: contentView)
-        //
-        //
-        //
-        //        window.contentViewController?.view.window?.makeKey()
+                window = NSWindow(
+                    contentRect: NSRect(x: 0, y: 0, width: 400, height: 300),
+                    styleMask: [.titled, .closable, .fullScreen],
+                    backing: .buffered,
+                    defer: false)
+        
+                window.center()
+                window.isReleasedWhenClosed = false
+                window.title = "Pomodoro Focus Timer"
+                window.makeKeyAndOrderFront(nil)
+                window.toolbarStyle = .automatic
+                window.contentView = NSHostingView(rootView: contentView)
+        
+        
+        
+                window.contentViewController?.view.window?.makeKey()
         
         // Create the status item
         self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
@@ -96,80 +96,76 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         }
         
         
-        self.popover = NSPopover()
-        self.popover.contentSize = NSSize(width: 300, height: 300)
-        self.popover.behavior = .transient
-        self.popover.delegate = self
-        self.popover.contentViewController = NSHostingController(rootView: contentView)
-        let detach = NSSelectorFromString("detach")
-        if popover.responds(to: detach) {
-            popover.perform(detach)
-        }
+//        self.popover = NSPopover()
+//        self.popover.contentSize = NSSize(width: 300, height: 300)
+//        self.popover.behavior = .transient
+//        self.popover.delegate = self
+//        self.popover.contentViewController = NSHostingController(rootView: contentView)
+//        let detach = NSSelectorFromString("detach")
+//        if popover.responds(to: detach) {
+//            popover.perform(detach)
+//        }
         
     }
     
-    @objc func togglePopover(_ sender: AnyObject?) {
-        
-        
-        
-        
-        
-        if let button = statusBarItem.button {
-            if popover.isShown {
-                self.popover.performClose(sender)
-            } else {
-                
-//                popover.show(relativeTo: .init(origin: CGPoint(x: 500, y: 500), size: button.bounds.size), of: button, preferredEdge: .maxY)
-                popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-            }
-        }
-        
-    }
+//    @objc func togglePopover(_ sender: AnyObject?) {
+//
+//
+//
+//
+//
+////        if let button = statusBarItem.button {
+////            if window.isShown {
+////                self.popover.performClose(sender)
+////            } else {
+////
+//////                popover.show(relativeTo: .init(origin: CGPoint(x: 500, y: 500), size: button.bounds.size), of: button, preferredEdge: .maxY)
+//////                popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+////            }
+////        }
+//
+//    }
     
-    func popoverShouldDetach(_ popover: NSPopover) -> Bool {
-        return true
-    }
-    
+//    func popoverShouldDetach(_ popover: NSPopover) -> Bool {
+//        return true
+//    }
+//
     
   
     
     
     
-    //    @objc func togglePopover(_ sender: AnyObject?) {
-    //
-    //        if self.window.isVisible {
-    //
-    //
-    //
-    //            window.miniaturize(sender)
-    //
-    //        } else {
-    //
-    //
-    ////            window.miniaturize(self)
+        @objc func togglePopover(_ sender: AnyObject?) {
+    
+            if self.window.isVisible {
+                window.orderOut(self)
+    
+            } else {
+    
+                window.orderFront(self)
+            }
+    
+    
+    
+    //        if let appWindow = NSApplication.shared.windows.first {
+    
+    
+    
+    
+    
+    
+                //            if window.i
+    
+                //            window.close()
     //        }
-    //
-    //
-    //
-    ////        if let appWindow = NSApplication.shared.windows.first {
-    //
-    //
-    //
-    //
-    //
-    //
-    //            //            if window.i
-    //
-    //            //            window.close()
-    ////        }
-    ////                if let button = self.statusBarItem.button {
-    ////                    if self.popover.isShown {
-    ////                        self.popover.performClose(sender)
-    ////                    } else {
-    ////                        self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-    ////                    }
-    ////                }
-    //    }
+    //                if let button = self.statusBarItem.button {
+    //                    if self.popover.isShown {
+    //                        self.popover.performClose(sender)
+    //                    } else {
+    //                        self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+    //                    }
+    //                }
+        }
     
 }
 
