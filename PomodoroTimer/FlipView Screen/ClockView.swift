@@ -6,14 +6,17 @@ struct ClockView: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            HStack(spacing: 0) {
-                    
-                    FlipView(viewModel: viewModel.flipViewModels[0])
-                    FlipView(viewModel: viewModel.flipViewModels[1])
-                    Text(":")
-                        .foregroundColor(Color("timerStringColor"))
-                        .font(Font.custom("RobotoMono-Bold", size: 35))
-    
+            
+            if viewModel.showMinutesAndSeconds {
+                HStack(spacing: 0) {
+                        
+                        FlipView(viewModel: viewModel.flipViewModels[0])
+                        FlipView(viewModel: viewModel.flipViewModels[1])
+                        Text(":")
+                            .foregroundColor(Color("timerStringColor"))
+                            .font(Font.custom("RobotoMono-Bold", size: 35))
+        
+                }
             }
             HStack(spacing: 0) {
                 FlipView(viewModel: viewModel.flipViewModels[2])
