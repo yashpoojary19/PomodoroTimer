@@ -53,14 +53,25 @@ struct ContentView: View {
                     
 //
 //
-                    Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
-                        .foregroundColor(Color("timerStringColor"))
-                        .font(Font.custom("RobotoMono-Bold", size: 35))
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.5)
-                        .frame(maxWidth: 120)
                     
-//                    ClockView()
+                    ZStack {
+                        
+                        if pomodoroViewModel.currentBreakState == .stop && pomodoroViewModel.currentTimerState == .stop {
+                            Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
+                                .foregroundColor(Color("timerStringColor"))
+                                .font(Font.custom("RobotoMono-Bold", size: 35))
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.5)
+                                .frame(maxWidth: 120)
+                        } else {
+                            ClockView(viewModel: pomodoroViewModel)
+                        }
+                       
+                        
+                        
+                       
+                    }
+                  
                     
                     //                        .padding(.bottom)
                     

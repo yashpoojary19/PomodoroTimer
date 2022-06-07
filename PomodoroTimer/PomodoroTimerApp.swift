@@ -82,24 +82,29 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         
         window.center()
         window.isReleasedWhenClosed = false
-        window.hasShadow = true
-        window.title = "   Pomodoro Focus Timer App"
+//        window.hasShadow = true
+        window.title = "Pomodoro Focus Timer App"
+        window.styleMask.remove(NSWindow.StyleMask.resizable)
         
-        window.toolbarStyle = .unified
+        
+//        window.toolbarStyle = .unified
         window.makeKeyAndOrderFront(true)
         window.standardWindowButton(.zoomButton)?.isEnabled = false
         window.isOpaque = false
         window.isMovableByWindowBackground = true
         window.backgroundColor = NSColor.clear
         window.titlebarAppearsTransparent = false
-//        window.contentMaxSize = NSSize(width: 400, height: 350)
-
-        
-        window.contentView = NSHostingView(rootView: contentView)
+       
       
+        window.toolbarStyle = .automatic
+        
+//        window?.styleMask.remove(NSWindow.StyleMask.resizable)
+        window.preservesContentDuringLiveResize = false
+        window.contentView = NSHostingView(rootView: contentView)
        
        
 //        window.contentView?.wantsLayer = true
+     
         
         
         
@@ -109,12 +114,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         
         let toolbarButtons = NSHostingView(rootView: ToolBarButton(pomodoroViewModel: pomodoroViewModel))
         toolbarButtons.frame.size = toolbarButtons.fittingSize
-        
+    
         
         let titlebarAccessory = NSTitlebarAccessoryViewController()
         
         titlebarAccessory.view = toolbarButtons
         titlebarAccessory.layoutAttribute = .trailing
+    
+        
         
         window.addTitlebarAccessoryViewController(titlebarAccessory)
         
@@ -127,8 +134,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         if let button = self.statusBarItem.button {
             button.title = pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining)
 //            print(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))
-          
+      
+        
             
+            
+//            button.layer?.cornerRadius = 25
+//
+//            button.layer?.borderWidth = 0.8
+//            button.layer?.backgroundColor = .black
+//            button.isBordered = true
+//            button.layer?.masksToBounds = true
+//
+//            button.layer?.borderColor = .white
             
             
             
@@ -181,10 +198,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
  show navigation bar - done
  
  6/06/2022
+
  Centre title
  Connect flip clock
- RE
+ RE - done
  
+ 7/06
+ Button with indicator and border
  
  
  */

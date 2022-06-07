@@ -21,7 +21,6 @@
 		B6C16317284B4A2D00551F2E /* ClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C16310284B4A2D00551F2E /* ClockView.swift */; };
 		B6C16318284B4A2D00551F2E /* SingleFlipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C16311284B4A2D00551F2E /* SingleFlipView.swift */; };
 		B6C1631A284B4A2D00551F2E /* FlipViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C16314284B4A2D00551F2E /* FlipViewModel.swift */; };
-		B6C1631B284B4A2D00551F2E /* ClockViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C16315284B4A2D00551F2E /* ClockViewModel.swift */; };
 		B6C1631D284B4A8D00551F2E /* DateFormatter+TimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C1631C284B4A8D00551F2E /* DateFormatter+TimeFormatter.swift */; };
 		B6C16321284F417500551F2E /* ToolBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C16320284F417500551F2E /* ToolBarButton.swift */; };
 		B6C5F5772847745E008A7F04 /* RobotoMono-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6C5F5752847745D008A7F04 /* RobotoMono-SemiBold.ttf */; };
@@ -46,7 +45,6 @@
 		B6C16310284B4A2D00551F2E /* ClockView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClockView.swift; sourceTree = "<group>"; };
 		B6C16311284B4A2D00551F2E /* SingleFlipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleFlipView.swift; sourceTree = "<group>"; };
 		B6C16314284B4A2D00551F2E /* FlipViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipViewModel.swift; sourceTree = "<group>"; };
-		B6C16315284B4A2D00551F2E /* ClockViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClockViewModel.swift; sourceTree = "<group>"; };
 		B6C1631C284B4A8D00551F2E /* DateFormatter+TimeFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+TimeFormatter.swift"; sourceTree = "<group>"; };
 		B6C16320284F417500551F2E /* ToolBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarButton.swift; sourceTree = "<group>"; };
 		B6C5F5752847745D008A7F04 /* RobotoMono-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -167,7 +165,6 @@
 			isa = PBXGroup;
 			children = (
 				B6C16314284B4A2D00551F2E /* FlipViewModel.swift */,
-				B6C16315284B4A2D00551F2E /* ClockViewModel.swift */,
 				B6C1631C284B4A8D00551F2E /* DateFormatter+TimeFormatter.swift */,
 			);
 			path = ViewModels;
@@ -266,7 +263,6 @@
 				B62C1358283E0D550017FAC3 /* ContentView.swift in Sources */,
 				B6C1631A284B4A2D00551F2E /* FlipViewModel.swift in Sources */,
 				B62C1356283E0D550017FAC3 /* PomodoroTimerApp.swift in Sources */,
-				B6C1631B284B4A2D00551F2E /* ClockViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

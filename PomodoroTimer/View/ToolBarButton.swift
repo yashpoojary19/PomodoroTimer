@@ -34,7 +34,7 @@ struct ToolBarButton: View {
                     }
                     
                 } label: {
-                    Text("Flow Duration")
+                    Text("Focus Duration")
                 }
                 
                 Menu {
