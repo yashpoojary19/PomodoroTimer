@@ -72,25 +72,36 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         let contentView = ContentView(pomodoroViewModel: pomodoroViewModel)
         
         
+        
         window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 400, height: 300),
-            styleMask: [.titled, .closable, .fullScreen],
+            contentRect: NSRect(x: 0, y: 0, width: 400, height: 350),
+            styleMask: [.titled, .closable, .fullSizeContentView],
             backing: .buffered,
             defer: false)
         
         
         window.center()
         window.isReleasedWhenClosed = false
-        
+        window.hasShadow = true
         window.title = "   Pomodoro Focus Timer App"
         
         window.toolbarStyle = .unified
-        window.makeKeyAndOrderFront(nil)
+        window.makeKeyAndOrderFront(true)
+        window.standardWindowButton(.zoomButton)?.isEnabled = false
+        window.isOpaque = false
+        window.isMovableByWindowBackground = true
+        window.backgroundColor = NSColor.clear
+        window.titlebarAppearsTransparent = false
+//        window.contentMaxSize = NSSize(width: 400, height: 350)
+
         
         window.contentView = NSHostingView(rootView: contentView)
+      
+       
+       
+//        window.contentView?.wantsLayer = true
         
-        window.titlebarAppearsTransparent = true
-        window.maxSize = NSSize(width: 400, height: 300)
+        
         
         window.toolbar = NSToolbar()
         
@@ -153,6 +164,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         
         
     }
+    
     
 }
 

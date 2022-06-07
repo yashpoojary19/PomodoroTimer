@@ -146,6 +146,7 @@
 		B6C1630D284B4A2000551F2E /* FlipView */ = {
 			isa = PBXGroup;
 			children = (
+				B6C16322284F477200551F2E /* Extensions */,
 				B6C16313284B4A2D00551F2E /* ViewModels */,
 				B6C1630E284B4A2D00551F2E /* Views */,
 			);
@@ -170,6 +171,13 @@
 				B6C1631C284B4A8D00551F2E /* DateFormatter+TimeFormatter.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		B6C16322284F477200551F2E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
