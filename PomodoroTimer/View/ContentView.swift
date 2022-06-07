@@ -77,13 +77,11 @@ struct ContentView: View {
                             pomodoroViewModel.stopTimer()
                         }),
                         secondaryButton: .cancel(Text("Cancel"), action: {
-                            //
+                            
                         })
                     )
                 }
-                
-                
-                //                .padding()
+   
                 
                 
                 
