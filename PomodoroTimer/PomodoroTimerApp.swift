@@ -106,6 +106,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         
         if let button = self.statusBarItem.button {
             button.title = pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining)
+            
 //            print(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))
       
         
@@ -126,8 +127,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
 //
 //            button.layer?.cornerRadius = 8.0
 //            button.layer?.borderWidth = 1.0
-    
-            //            button.image = NSImage(systemSymbolName: "timer", accessibilityDescription: "timer icon")
+          
+            button.imagePosition = .imageOverlaps
+ 
+            button.image = NSImage(named: "Bezel")
+//            button.image = NSImage(systemSymbolName: "rectangle", accessibilityDescription: "timer icon")
             button.action = #selector(toggleWindow(_:))
         }
         
@@ -159,25 +163,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
 }
 
 /*
- Notes:
- Break time updating to focus time when timer is stopped - Fixed
- Timer not counting down to 0 seconds - Fixed
- 
- Pending
- 1/06/2022
- Flip clock
- Transition from active to background - done
- Only closable - done
- show navigation bar - done
- 
- 6/06/2022
 
- Centre title
- Connect flip clock
- RE - done
  
  7/06
  Button with indicator and border
  Resz
- 
+ NF on NSM
  */
