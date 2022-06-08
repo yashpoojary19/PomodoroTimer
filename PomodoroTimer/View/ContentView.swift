@@ -63,14 +63,17 @@ struct ContentView: View {
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.5)
                                 .frame(maxWidth: 120)
+                            
                         } else {
                             ClockView(viewModel: pomodoroViewModel)
+                                .frame(maxWidth: 120)
                         }
                        
                         
                         
                        
                     }
+                    
                   
                     
                     //                        .padding(.bottom)

@@ -12,7 +12,7 @@ import SwiftUI
 class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
     
     
-    @Published var showMinutesAndSeconds = false
+    @Published var showOnlyMinutesAndSeconds = true
     @Published var currentState = TimerState.PomodoroTimer
     @Published var currentTimerState = PomodoroTimer.stop
     @Published var currentBreakState = PomodoroBreak.stop
@@ -39,12 +39,14 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     var timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in })
     
     
+
+    
     
     private func setupTimer(fromTime: Double) {
-        var date = Date(timeIntervalSince1970: fromTime)
+        var date = Date(timeIntervalSince1970: fromTime )
         
         
-        timer =        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (Timer) in
+        timer =        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [self] (Timer) in
             let currentCalendar = Calendar.current
             date  = currentCalendar.date(byAdding: .second, value: -1, to: date)!
             let formatter = DateFormatter()
@@ -54,13 +56,14 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
             formatter.dateFormat = "HHmmss"
             let new = formatter.string(from: date)
             
-            let index = new.index(new.startIndex, offsetBy: 2)
-            
-            if String(new[index]) == "00" {
-                self.showMinutesAndSeconds = true
+            if new.hasPrefix("00") {
+                self.showOnlyMinutesAndSeconds = true
             } else {
-                self.showMinutesAndSeconds = false
+                self.showOnlyMinutesAndSeconds = false
             }
+            
+            
+        
             
             print(new)
             self.setTimeInViewModels(time: new)
@@ -83,16 +86,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         progress = 1
     }
     
-    func startTimer() {
-        setupTimer(fromTime: timerDuration)
-        currentTimerDuration = timerDuration
-        currentState = .PomodoroTimer
-        currentTimerState = PomodoroTimer.running
-        timeRemaining = currentTimerDuration
-        
-        //        setupTimer()
-        //        self.timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    }
+
     
     func updateTimer() {
         
@@ -123,13 +117,32 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         progress = 1
     }
     
+    func startTimer() {
+        self.timer.invalidate()
+        setupTimer(fromTime: timerDuration)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
+            self.currentTimerDuration = self.timerDuration
+            self.currentState = .PomodoroTimer
+            self.currentTimerState = PomodoroTimer.running
+            self.timeRemaining = self.currentTimerDuration
+            
+        }
+     
+      
+    }
+    
     func startBreak() {
-        progress = 1
-        currentBreakTimeDuration = breakTimeDuration
-        currentState = .PomodoroBreak
-        currentBreakState = .running
-        timeRemaining = currentBreakTimeDuration
+        self.timer.invalidate()
         setupTimer(fromTime: breakTimeDuration)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
+            self.progress = 1
+            self.currentBreakTimeDuration =  self.breakTimeDuration
+            self.currentState = .PomodoroBreak
+            self.currentBreakState = .running
+            self.timeRemaining =  self.currentBreakTimeDuration
+        }
         //        timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     }
     

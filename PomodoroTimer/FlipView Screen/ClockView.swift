@@ -7,7 +7,7 @@ struct ClockView: View {
     var body: some View {
         HStack(spacing: 0) {
             
-            if viewModel.showMinutesAndSeconds {
+            if !viewModel.showOnlyMinutesAndSeconds {
                 HStack(spacing: 0) {
                         
                         FlipView(viewModel: viewModel.flipViewModels[0])
@@ -30,6 +30,8 @@ struct ClockView: View {
                 FlipView(viewModel: viewModel.flipViewModels[5])
             }
         }
+//        .scaleEffect(!viewModel.showOnlyMinutesAndSeconds ? 0.7 : 1)
+        
   
         
     }

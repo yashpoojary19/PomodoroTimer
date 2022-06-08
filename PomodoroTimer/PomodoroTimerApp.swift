@@ -44,7 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         
         let contentView = ContentView(pomodoroViewModel: pomodoroViewModel)
         
-        
+       
         
         window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 400, height: 350),
@@ -52,14 +52,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             backing: .buffered,
             defer: false)
         
-        
+//        window.styleMask.remove(.resizable)
         window.center()
         window.isReleasedWhenClosed = false
 //        window.hasShadow = true
         window.title = "Pomodoro Focus Timer App"
         window.styleMask.remove(NSWindow.StyleMask.resizable)
         
-        
+    
 //        window.toolbarStyle = .unified
         window.makeKeyAndOrderFront(true)
         window.standardWindowButton(.zoomButton)?.isEnabled = false
@@ -72,7 +72,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         window.toolbarStyle = .automatic
         
 //        window?.styleMask.remove(NSWindow.StyleMask.resizable)
-        window.preservesContentDuringLiveResize = false
+       
         window.contentView = NSHostingView(rootView: contentView)
        
        
@@ -136,7 +136,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     
     
     
-    
+   
     
     
     @objc func toggleWindow(_ sender: AnyObject?) {
@@ -178,6 +178,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
  
  7/06
  Button with indicator and border
- 
+ Resz
  
  */
