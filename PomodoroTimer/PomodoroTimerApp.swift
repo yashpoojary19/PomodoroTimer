@@ -13,7 +13,7 @@ import AppKit
 struct PomodoroTimerApp: App {
     
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @StateObject var pomodoroViewModel = PomodoroViewModel()
+    @ObservedObject var pomodoroViewModel = PomodoroViewModel()
     
     @Environment(\.scenePhase) var phase
     @State var lastActiveDateStamp = Date()
@@ -29,7 +29,7 @@ struct PomodoroTimerApp: App {
 }
 
 
-class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate, NSWindowDelegate {
     
     //    var popover: NSPopover!
     var statusBarItem: NSStatusItem!
@@ -42,9 +42,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         
         self.pomodoroViewModel = PomodoroViewModel()
         
-        let contentView = ContentView(pomodoroViewModel: pomodoroViewModel)
+        let contentView = ContentView(pomodoroViewModel: pomodoroViewModel).onAppear {
+            self.window.styleMask.remove(.resizable)
+        }
         
-       
+     
         
         window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 400, height: 350),
@@ -52,14 +54,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             backing: .buffered,
             defer: false)
         
-//        window.styleMask.remove(.resizable)
+      
         window.center()
         window.isReleasedWhenClosed = false
 //        window.hasShadow = true
         window.title = "Pomodoro Focus Timer App"
+        
+        window.styleMask.remove(.resizable)
         window.styleMask.remove(NSWindow.StyleMask.resizable)
         
+   
     
+        
+ 
+        
+        
 //        window.toolbarStyle = .unified
         window.makeKeyAndOrderFront(true)
         window.standardWindowButton(.zoomButton)?.isEnabled = false
@@ -68,7 +77,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         window.backgroundColor = NSColor.clear
         window.titlebarAppearsTransparent = false
        
-      
+        window.level = .floating
         window.toolbarStyle = .automatic
         
 //        window?.styleMask.remove(NSWindow.StyleMask.resizable)
@@ -106,6 +115,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         
         if let button = self.statusBarItem.button {
             button.title = pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining)
+         
             
 //            print(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))
       
@@ -138,9 +148,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         
     }
     
+
     
-    
-   
+    func window(_ window: NSWindow, willResizeForVersionBrowserWithMaxPreferredSize maxPreferredFrameSize: NSSize, maxAllowedSize maxAllowedFrameSize: NSSize) -> NSSize {
+        NSSize(width: 400, height: 350)
+        
+    }
     
     
     @objc func toggleWindow(_ sender: AnyObject?) {
@@ -149,9 +162,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             window.orderOut(self)
             
         } else {
-            window.level = .floating
+//            window.level = .floating
             
-            window.orderFront(self)
+            window.makeKeyAndOrderFront(self)
             
         }
         
@@ -168,5 +181,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
  7/06
  Button with indicator and border
  Resz
- NF on NSM
+ Not Firing on NSM
+ Animation
+ Default Value
  */

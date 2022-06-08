@@ -38,17 +38,22 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     //    var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     var timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in })
     
-    
 
     
     
     private func setupTimer(fromTime: Double) {
-        var date = Date(timeIntervalSince1970: fromTime )
+        timer.invalidate()
+        var date = Date(timeIntervalSince1970: fromTime)
         
+       
         
         timer =        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [self] (Timer) in
             let currentCalendar = Calendar.current
             date  = currentCalendar.date(byAdding: .second, value: -1, to: date)!
+            
+            timeRemaining = date.timeIntervalSince1970
+            print(timeRemaining)
+            updateTimer()
             let formatter = DateFormatter()
             formatter.timeZone = TimeZone(abbreviation: "UTC")
             
@@ -93,12 +98,12 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         switch currentState {
         case .PomodoroTimer:
             withAnimation(Animation.easeIn(duration: 0.4)) {
-                progress = (timeRemaining - 1) / currentTimerDuration
+                progress = (timeRemaining) / currentTimerDuration
             }
             
         case .PomodoroBreak:
             withAnimation(Animation.easeIn(duration: 0.4)) {
-                progress = (timeRemaining - 1) / currentBreakTimeDuration
+                progress = (timeRemaining) / currentBreakTimeDuration
             }
             
         }
@@ -121,7 +126,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         self.timer.invalidate()
         setupTimer(fromTime: timerDuration)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
             self.currentTimerDuration = self.timerDuration
             self.currentState = .PomodoroTimer
             self.currentTimerState = PomodoroTimer.running
@@ -136,7 +141,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         self.timer.invalidate()
         setupTimer(fromTime: breakTimeDuration)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
             self.progress = 1
             self.currentBreakTimeDuration =  self.breakTimeDuration
             self.currentState = .PomodoroBreak
@@ -187,7 +192,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     override init() {
         
         super.init()
-        //        self.setupTimer()
+        self.setupTimer(fromTime: 1)
         self.requestNotification()
         
     }

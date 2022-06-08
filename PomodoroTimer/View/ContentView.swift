@@ -12,7 +12,7 @@ struct ContentView: View {
     @ObservedObject var pomodoroViewModel: PomodoroViewModel
     @State private var showTimerAlert = false
     @State private var showBreakTimerAlert = false
-    
+    @State private var id = UUID()
     
     var body: some View {
         VStack {
@@ -57,26 +57,40 @@ struct ContentView: View {
                     ZStack {
                         
                         if pomodoroViewModel.currentBreakState == .stop && pomodoroViewModel.currentTimerState == .stop {
-                            Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
-                                .foregroundColor(Color("timerStringColor"))
-                                .font(Font.custom("RobotoMono-Bold", size: 35))
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.5)
-                                .frame(maxWidth: 120)
+                            
+                            ZStack {
+                                
+//                                ClockView(viewModel: pomodoroViewModel)
+//                                    .frame(maxWidth: 120)
+                                
+                                Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
+                                    .foregroundColor(Color("timerStringColor"))
+                                    .font(Font.custom("RobotoMono-Bold", size: 35))
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.5)
+                                    .frame(maxWidth: 120)
+                                
+                                
+                                
+                            }
+                          
+                            
                             
                         } else {
                             ClockView(viewModel: pomodoroViewModel)
                                 .frame(maxWidth: 120)
+                            
                         }
                        
                         
                         
                        
                     }
+                    .id(id)
                     
                   
                     
-                    //                        .padding(.bottom)
+
                     
                     Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.timerText() :  pomodoroViewModel.currentBreakState.timerText())")
                         .font(Font.custom("Roboto-Medium", size: 12))
@@ -203,6 +217,8 @@ struct ContentView: View {
 //        }
         .onAppear {
             pomodoroViewModel.currentTimerState = .stop
+            id = UUID()
+//            pomodoroViewModel.timer.invalidate()
         }
         
         
