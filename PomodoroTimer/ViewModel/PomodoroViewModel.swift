@@ -121,6 +121,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
             }
         }
         
+        RunLoop.main.add(timer, forMode: .common)
     }
     
     func resetTimer() {

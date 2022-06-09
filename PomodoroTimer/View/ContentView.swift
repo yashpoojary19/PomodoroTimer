@@ -50,29 +50,17 @@ struct ContentView: View {
                     Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? "Focus" : "Break")")
                         .font(Font.custom("Roboto-Medium", size: 12))
                         .foregroundColor(Color("timerStringColor"))
-                    
-//
-//
-                    
+
                     ZStack {
                         
                         if pomodoroViewModel.currentBreakState == .stop && pomodoroViewModel.currentTimerState == .stop {
-                            
-                 
-                                
                                 Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
                                     .foregroundColor(Color("timerStringColor"))
                                     .font(Font.custom("RobotoMono-Bold", size: 35))
                                     .lineLimit(1)
                                     .minimumScaleFactor(0.5)
                                     .frame(maxWidth: 120)
-                                
-                                
-                                
-                      
-                          
-                            
-                            
+
                         } else {
                             ClockView(viewModel: pomodoroViewModel)
                                 .frame(maxWidth: 120)
@@ -83,13 +71,9 @@ struct ContentView: View {
                         
                        
                     }
-                  
-                    
-                  
-                    
 
-                    
                     Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.timerText() :  pomodoroViewModel.currentBreakState.timerText())")
+//                        .animation(.spring(response: 0.5, dampingFraction: 1, blendDuration: 2))
                         .font(Font.custom("Roboto-Medium", size: 12))
                         .foregroundColor(Color("timerSubTextColor"))
                         .offset(x: 0, y: 10)
@@ -106,17 +90,10 @@ struct ContentView: View {
                         })
                     )
                 }
-   
-                
-                
-                
+
                 
             }
-            
-            
-            
-            
-            
+
             Button(action: {
                 switch pomodoroViewModel.currentState {
                 case .PomodoroTimer:
@@ -174,44 +151,7 @@ struct ContentView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color("backgroundColor"))
-       
 
-        
-        .onChange(of: pomodoroViewModel.timeRemaining) { time in
-            
-//            switch pomodoroViewModel.currentState {
-//            case .PomodoroTimer:
-//                if time == 0 {
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-//                        pomodoroViewModel.startBreak()
-//                    }
-//                    
-//                }
-//                
-//            case .PomodoroBreak:
-//                if time == 0 {
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-//                        pomodoroViewModel.resetTimer()
-//                    }
-//                    
-//                }
-//                
-//            }
-            
-        }
-//        .onReceive(pomodoroViewModel.timer) { time in
-//            
-//            
-//            
-//            if pomodoroViewModel.currentTimerState != .stop || pomodoroViewModel.currentBreakState != .stop  {
-//                pomodoroViewModel.updateTimer()
-//                if pomodoroViewModel.timeRemaining >= 0 {
-//                    pomodoroViewModel.timeRemaining -= 1
-//                    
-//                }
-//            }
-//            
-//        }
         .onAppear {
             pomodoroViewModel.currentTimerState = .stop
 
