@@ -38,8 +38,39 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     //    var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     var timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in })
     
-
+    private func initializeTimer() {
     
+        var date = Date(timeIntervalSince1970: 1)
+        
+       
+        
+        timer =        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [self] (Timer) in
+            let currentCalendar = Calendar.current
+            date  = currentCalendar.date(byAdding: .second, value: -1, to: date)!
+
+            let formatter = DateFormatter()
+            formatter.timeZone = TimeZone(abbreviation: "UTC")
+            
+            
+            formatter.dateFormat = "HHmmss"
+            let new = formatter.string(from: date)
+            
+            if new.hasPrefix("00") {
+                self.showOnlyMinutesAndSeconds = true
+            } else {
+                self.showOnlyMinutesAndSeconds = false
+            }
+        
+            self.setTimeInViewModels(time: new)
+            if new == "000000" {
+                self.timer.invalidate()
+            }
+        }
+        
+     
+        
+    }
+
     
     private func setupTimer(fromTime: Double) {
         timer.invalidate()
@@ -53,6 +84,9 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
             
             timeRemaining = date.timeIntervalSince1970
             print(timeRemaining)
+            
+            
+            
             updateTimer()
             let formatter = DateFormatter()
             formatter.timeZone = TimeZone(abbreviation: "UTC")
@@ -67,13 +101,23 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
                 self.showOnlyMinutesAndSeconds = false
             }
             
-            
-        
-            
             print(new)
             self.setTimeInViewModels(time: new)
             if new == "000000" {
                 self.timer.invalidate()
+                switch currentState {
+                case .PomodoroTimer:
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                            self.startBreak()
+                        }
+                case .PomodoroBreak:
+
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                            self.resetTimer()
+                        }
+
+                }
+
             }
         }
         
@@ -81,14 +125,13 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     
     func resetTimer() {
         
-        
-        self.timer.invalidate()
-        //        self.timer.upstream.connect().cancel()
+
         currentTimerDuration = timerDuration
         currentState = .PomodoroTimer
-        currentTimerState = PomodoroTimer.stop
+        currentTimerState = .stop
         timeRemaining = currentTimerDuration
         progress = 1
+        currentBreakState = .stop
     }
     
 
@@ -123,7 +166,6 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     }
     
     func startTimer() {
-        self.timer.invalidate()
         setupTimer(fromTime: timerDuration)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
@@ -138,7 +180,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     }
     
     func startBreak() {
-        self.timer.invalidate()
+
         setupTimer(fromTime: breakTimeDuration)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
@@ -148,7 +190,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
             self.currentBreakState = .running
             self.timeRemaining =  self.currentBreakTimeDuration
         }
-        //        timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+
     }
     
     func stopBreak() {
@@ -192,7 +234,8 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     override init() {
         
         super.init()
-        self.setupTimer(fromTime: 1)
+        self.initializeTimer()
+//        self.setupTimer(fromTime: 1)
         self.requestNotification()
         
     }

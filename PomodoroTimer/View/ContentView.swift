@@ -12,7 +12,7 @@ struct ContentView: View {
     @ObservedObject var pomodoroViewModel: PomodoroViewModel
     @State private var showTimerAlert = false
     @State private var showBreakTimerAlert = false
-    @State private var id = UUID()
+  
     
     var body: some View {
         VStack {
@@ -58,10 +58,7 @@ struct ContentView: View {
                         
                         if pomodoroViewModel.currentBreakState == .stop && pomodoroViewModel.currentTimerState == .stop {
                             
-                            ZStack {
-                                
-//                                ClockView(viewModel: pomodoroViewModel)
-//                                    .frame(maxWidth: 120)
+                 
                                 
                                 Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
                                     .foregroundColor(Color("timerStringColor"))
@@ -72,7 +69,7 @@ struct ContentView: View {
                                 
                                 
                                 
-                            }
+                      
                           
                             
                             
@@ -86,7 +83,7 @@ struct ContentView: View {
                         
                        
                     }
-                    .id(id)
+                  
                     
                   
                     
@@ -182,24 +179,24 @@ struct ContentView: View {
         
         .onChange(of: pomodoroViewModel.timeRemaining) { time in
             
-            switch pomodoroViewModel.currentState {
-            case .PomodoroTimer:
-                if time == 0 {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                        pomodoroViewModel.startBreak()
-                    }
-                    
-                }
-                
-            case .PomodoroBreak:
-                if time == 0 {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                        pomodoroViewModel.resetTimer()
-                    }
-                    
-                }
-                
-            }
+//            switch pomodoroViewModel.currentState {
+//            case .PomodoroTimer:
+//                if time == 0 {
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+//                        pomodoroViewModel.startBreak()
+//                    }
+//                    
+//                }
+//                
+//            case .PomodoroBreak:
+//                if time == 0 {
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+//                        pomodoroViewModel.resetTimer()
+//                    }
+//                    
+//                }
+//                
+//            }
             
         }
 //        .onReceive(pomodoroViewModel.timer) { time in
@@ -217,8 +214,7 @@ struct ContentView: View {
 //        }
         .onAppear {
             pomodoroViewModel.currentTimerState = .stop
-            id = UUID()
-//            pomodoroViewModel.timer.invalidate()
+
         }
         
         
