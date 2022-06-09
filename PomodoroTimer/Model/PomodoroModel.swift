@@ -11,13 +11,13 @@ import SwiftUI
 enum TimerState {
     case PomodoroTimer
     case PomodoroBreak
-    
-  
 }
 
 enum PomodoroTimer {
     case running
     case stop
+    
+    // Timer Screen UI Elements
     
     func buttonText() -> String {
         switch self {
@@ -28,6 +28,7 @@ enum PomodoroTimer {
         }
     }
     
+    
     func elementColor() -> Color {
         switch self {
         case .running:
@@ -36,6 +37,16 @@ enum PomodoroTimer {
             return Color("timerPrimaryColor")
         }
     }
+    
+    func indicatorColor() -> Color {
+        switch self {
+        case .running:
+            return Color("timerStopColorLight")
+        case .stop:
+            return Color("timerPrimaryColorLight")
+        }
+    }
+    
     
     func timerText() -> String {
         switch self {
@@ -50,6 +61,8 @@ enum PomodoroTimer {
 enum PomodoroBreak {
     case running
     case stop
+    
+    // Timer Screen UI Elements
     
     func buttonText() -> String {
         switch self {
@@ -69,8 +82,22 @@ enum PomodoroBreak {
         }
     }
     
-    func timerText() -> String {
+    
+    
+    
+    func indicatorColor() -> Color {
         switch self {
+        case .running:
+            return Color("breakColorLight")
+        case .stop:
+            return Color("breakColorLight")
+        }
+    }
+    
+    func timerText() -> String {
+        
+        switch self {
+            
         case .running:
             return "Relax!"
         case .stop:

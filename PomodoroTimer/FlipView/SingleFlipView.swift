@@ -2,8 +2,11 @@ import SwiftUI
 
 struct SingleFlipView: View {
     
-    init(text: String) {
+    @ObservedObject var viewModel: PomodoroViewModel
+    
+    init(text: String, viewModel: PomodoroViewModel) {
         self.text = text
+        self.viewModel = viewModel
     }
     
     // MARK: - Private
@@ -11,12 +14,12 @@ struct SingleFlipView: View {
     private let text: String
     
     var body: some View {
+
         Text(text)
             .frame(maxWidth: 20)
             .foregroundColor(Color("timerStringColor"))
-            .font(Font.custom("RobotoMono-Bold", size: 35))
-            .lineLimit(1)
-            .minimumScaleFactor(0.5)
+            .font(Font.custom("RobotoMono-Bold", size: viewModel.showOnlyMinutesAndSeconds ? 35 : 25))
+
 
     }
     

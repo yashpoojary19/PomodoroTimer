@@ -12,7 +12,8 @@ struct ContentView: View {
     @ObservedObject var pomodoroViewModel: PomodoroViewModel
     @State private var showTimerAlert = false
     @State private var showBreakTimerAlert = false
-  
+    @State private var textAnimation = true
+    
     
     var body: some View {
         VStack {
@@ -25,7 +26,7 @@ struct ContentView: View {
                     .frame(width: 165, height: 165)
                 
                 Circle()
-                    .stroke(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.elementColor().opacity(0.31) :  pomodoroViewModel.currentBreakState.elementColor().opacity(0.31), style: StrokeStyle(lineWidth: 14, lineCap: .square, lineJoin: .round))
+                    .stroke(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.indicatorColor() :  pomodoroViewModel.currentBreakState.indicatorColor(), style: StrokeStyle(lineWidth: 14, lineCap: .square, lineJoin: .round))
                     .frame(width: 180)
                 
                 Circle()
@@ -36,9 +37,8 @@ struct ContentView: View {
                     .animation(.linear, value: 2)
                 
                 Circle()
-                    .fill(Color.white)
-                //                    .fill(Color("timerStopColor").opacity(0.8))
-                //                    .fill(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.elementColor().opacity(0.1) :  pomodoroViewModel.currentBreakState.elementColor().opacity(0.1))
+                    .fill(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.indicatorColor() :  pomodoroViewModel.currentBreakState.indicatorColor())
+
                     .frame(width: 8, height: 8)
                     .offset(x: 0, y: -90)
                     .rotationEffect(.init(degrees: pomodoroViewModel.progress * 360))
@@ -54,6 +54,8 @@ struct ContentView: View {
                     ZStack {
                         
                         if pomodoroViewModel.currentBreakState == .stop && pomodoroViewModel.currentTimerState == .stop {
+                            
+                            
                                 Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
                                     .foregroundColor(Color("timerStringColor"))
                                     .font(Font.custom("RobotoMono-Bold", size: 35))
@@ -63,7 +65,7 @@ struct ContentView: View {
 
                         } else {
                             ClockView(viewModel: pomodoroViewModel)
-                                .frame(maxWidth: 120)
+//                                .frame(maxWidth: 125)
                             
                         }
                        
@@ -71,12 +73,20 @@ struct ContentView: View {
                         
                        
                     }
+                    
+                    Group {
+                        Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.timerText() :  pomodoroViewModel.currentBreakState.timerText())")
+//                            .animation(.easeIn(duration: 0.5))
+//                            .transition(AnyTransition.scale(scale: 20))
+    //                        .animation(.spring(response: 0.5, dampingFraction: 1, blendDuration: 2))
+                            .font(Font.custom("Roboto-Medium", size: 12))
+                            .foregroundColor(Color("timerSubTextColor"))
+                            .offset(x: 0, y: 10)
+                    }
+                   
 
-                    Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.timerText() :  pomodoroViewModel.currentBreakState.timerText())")
-//                        .animation(.spring(response: 0.5, dampingFraction: 1, blendDuration: 2))
-                        .font(Font.custom("Roboto-Medium", size: 12))
-                        .foregroundColor(Color("timerSubTextColor"))
-                        .offset(x: 0, y: 10)
+                  
+                     
                 }
                 .alert(isPresented: $showTimerAlert) {
                     Alert(
@@ -168,31 +178,9 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = PomodoroViewModel()
         ContentView(pomodoroViewModel: viewModel)
-            .frame(width: 400, height: 300)
+            .frame(width: 400, height: 350)
     }
 }
 
 
-//CHECK MARK
-//Unicode: U+2713, UTF-8: E2 9C 93
 
-struct AnimatableCustomFontModifier: ViewModifier, Animatable {
-    var name: String
-    var size: Double
-    
-    var animatableData: Double {
-        get { size }
-        set { size = newValue }
-    }
-    
-    func body(content: Content) -> some View {
-        content
-            .font(.custom(name, size: size))
-    }
-}
-
-extension View {
-    func animatableFont(name: String, size: Double) -> some View {
-        self.modifier(AnimatableCustomFontModifier(name: name, size: size))
-    }
-}

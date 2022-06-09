@@ -13,6 +13,7 @@ struct ToolBarButton: View {
     
     var body: some View {
         
+        // Added check for .menuIndicator(.hidden)
         
         if #available(macOS 12.0, *) {
             
