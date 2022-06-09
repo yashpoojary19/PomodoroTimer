@@ -30,7 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate, NSWindowD
     var statusBarItem: NSStatusItem!
     var pomodoroViewModel: PomodoroViewModel!
     var window: NSWindow!
-    var buttonText: String!
+   
 
     @MainActor func applicationDidFinishLaunching(_ aNotification: Notification) {
         
@@ -41,7 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate, NSWindowD
         }
         
      
-      buttonText =  pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining)
+     
         window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 400, height: 350),
             styleMask: [.titled, .closable, .fullSizeContentView],

@@ -45,10 +45,11 @@ struct ContentView: View {
                 
                 
                 
-                VStack {
+                VStack(spacing: 0) {
                     
                     Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? "Focus" : "Break")")
                         .font(Font.custom("Roboto-Medium", size: 12))
+
                         .foregroundColor(Color("timerStringColor"))
 
                     ZStack {
@@ -65,7 +66,7 @@ struct ContentView: View {
 
                         } else {
                             ClockView(viewModel: pomodoroViewModel)
-//                                .frame(maxWidth: 125)
+
                             
                         }
                        
@@ -74,15 +75,15 @@ struct ContentView: View {
                        
                     }
                     
-                    Group {
+           
                         Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? pomodoroViewModel.currentTimerState.timerText() :  pomodoroViewModel.currentBreakState.timerText())")
 //                            .animation(.easeIn(duration: 0.5))
 //                            .transition(AnyTransition.scale(scale: 20))
     //                        .animation(.spring(response: 0.5, dampingFraction: 1, blendDuration: 2))
+                            
                             .font(Font.custom("Roboto-Medium", size: 12))
                             .foregroundColor(Color("timerSubTextColor"))
                             .offset(x: 0, y: 10)
-                    }
                    
 
                   
