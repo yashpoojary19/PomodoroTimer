@@ -43,7 +43,11 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     @Published var progress: CGFloat = 1
     
     
-    // Animates text on Timer View
+    //Animates the Timer Label
+    @Published var animateBackLabelText = true
+    @Published var animateFrontLabelText = true
+    
+    // Animates the Timer Caption
     @Published var animateBackText = true
     @Published var animateFrontText = true
 
@@ -259,6 +263,8 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     
     // Animation Controls
     
+    
+    // Timer Caption Text
     func animatefrontText() {
         animateFrontText = false
 
@@ -281,12 +287,39 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         }
     }
     
+    
+    // Timer Label Text
+    func animatefrontLabelText() {
+        animateFrontLabelText = false
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            withAnimation(.linear(duration: 0.2)) {
+                self.animateFrontLabelText = true
+            }
+
+        }
+    }
+    
+    
+    func animatebackLabelText() {
+        animateBackLabelText = false
+
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            withAnimation(.linear(duration: 0.2)) {
+                self.animateBackLabelText = true
+            }
+
+        }
+    }
+    
+    
+    
     // Notification Settings
     
     private func requestNotification() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
             if success {
-                //                print("All set!")
+                print("All set!")
             } else if let error = error {
                 print(error.localizedDescription)
             }

@@ -46,10 +46,36 @@ struct ContentView: View {
                 
                 VStack(spacing: 0) {
                     
-                    Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? "Focus" : "Break")")
-                        .font(Font.custom("Roboto-Medium", size: 12))
+                    // Timer Label
                     
-                        .foregroundColor(Color("timerStringColor"))
+                    ZStack {
+                        Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? "Break" : "Focus")")
+                            .opacity(pomodoroViewModel.animateBackLabelText ? 0 : 1)
+                            .scaleEffect(pomodoroViewModel.animateBackLabelText ? 0 : 1)
+                            .onChange(of: pomodoroViewModel.currentState) { _ in
+                                pomodoroViewModel.animatebackLabelText()
+                                print("This is the current state", pomodoroViewModel.currentState)
+
+                            }
+
+                        Text("\(pomodoroViewModel.currentState == .PomodoroTimer ? "Focus" : "Break")")
+                            .scaleEffect(pomodoroViewModel.animateFrontLabelText ? 1 : 0.2)
+                            .opacity(pomodoroViewModel.animateFrontLabelText ? 1 : 0.2)
+                            .onChange(of: pomodoroViewModel.currentState) { _ in
+
+                                pomodoroViewModel.animatefrontLabelText()
+
+
+                            }
+                            
+                    }
+                    .font(Font.custom("Roboto-Medium", size: 12))
+                    .foregroundColor(Color("timerStringColor"))
+                    .offset(x: 0, y: 2)
+                    
+               
+
+
                     
                     ZStack {
                         
@@ -70,7 +96,12 @@ struct ContentView: View {
                         
                     }
                     
+                   
+                    // Timer Caption
+                    
                     ZStack {
+                        
+                        
                         
                         // Animating previous state text on state change
                         
@@ -105,10 +136,10 @@ struct ContentView: View {
                         
                         
                     }
-                    
                     .font(Font.custom("Roboto-Medium", size: 12))
                     .foregroundColor(Color("timerSubTextColor"))
-                    .offset(x: 0, y: 10)
+                    .offset(x: 0, y: 5)
+                    
                     
                     
                     
@@ -181,12 +212,13 @@ struct ContentView: View {
             
             
         }
+     
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color("backgroundColor"))
         
         .onAppear {
             pomodoroViewModel.currentTimerState = .stop
-            
+            pomodoroViewModel.currentState = .PomodoroTimer
         }
         
         

@@ -72,10 +72,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate, NSWindowD
         
         window.toolbar = NSToolbar()
 
-        
         let toolbarButtons = NSHostingView(rootView: ToolBarButton(pomodoroViewModel: pomodoroViewModel))
         toolbarButtons.frame.size = toolbarButtons.fittingSize
-    
+
         
         let titlebarAccessory = NSTitlebarAccessoryViewController()
         
