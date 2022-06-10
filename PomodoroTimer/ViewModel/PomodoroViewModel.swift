@@ -15,25 +15,40 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     @Published var showOnlyMinutesAndSeconds = true
     
     
-    
+
     @Published var currentState = TimerState.PomodoroTimer
     @Published var currentTimerState = PomodoroTimer.stop
     @Published var currentBreakState = PomodoroBreak.stop
     
-    @Published var timerDuration: Double = 0.1*60
-    @Published var breakTimeDuration: Double = 0.1*60
+    @Published var timerDuration: Double = 10*60
+    @Published var breakTimeDuration: Double = 5*60
     
-    @Published var currentTimerDuration: Double = 0.1*60
-    @Published var currentBreakTimeDuration: Double = 0.1*60
+    @Published var currentTimerDuration: Double = 10*60
+    @Published var currentBreakTimeDuration: Double = 5*60
     
-    let timerDurationArray: [Double] = [0.1, 1, 10, 25, 55, 90]
-    let breakDurationArray: [Double] = [0.1, 1, 5, 10 , 15, 20]
+    let timerDurationArray: [Double] = [10, 25, 55, 90, 120]
+    let breakDurationArray: [Double] = [5, 10 , 15, 20, 30]
     
-    @Published var timeRemaining: Double = 0.1*60
+    
+// For testing
+//    let timerDurationArray: [Double] = [0.1, 1, 10, 25, 55, 90]
+//    let breakDurationArray: [Double] = [0.1, 1, 5, 10 , 15, 20]
+
+    
+    // Indicates the remaining time when the timer is not running
+    @Published var timeRemaining: Double = 10*60
+    
+
+    // Progress indicator for timer screen
     @Published var progress: CGFloat = 1
- 
+    
+    
+    // Animates text on Timer View
+    @Published var animateBackText = true
+    @Published var animateFrontText = true
+
    
-    // Variable to convert the time value to string
+    // Converting time values to string
     
     private(set) lazy var flipViewModels = { (0...5).map {
         _ in FlipViewModel() }}()
@@ -57,13 +72,6 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
             
             formatter.dateFormat = "HHmmss"
             let new = formatter.string(from: date)
-            
-            if new.hasPrefix("00") {
-                self.showOnlyMinutesAndSeconds = true
-            } else {
-                self.showOnlyMinutesAndSeconds = false
-            }
-            
             self.setTimeInViewModels(time: new)
             if new == "000000" {
                 self.timer.invalidate()
@@ -108,6 +116,9 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
             
             print(currentTime)
             self.setTimeInViewModels(time: currentTime)
+        
+            
+            
             if currentTime == "000000" {
                 self.timer.invalidate()
                 switch currentState {
@@ -128,9 +139,11 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         }
         
         RunLoop.main.add(timer, forMode: .common)
+
     }
-    
    private func resetTimer() {
+       
+       
         currentTimerDuration = timerDuration
         currentState = .PomodoroTimer
         currentTimerState = .stop
@@ -160,6 +173,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     
     
      func stopTimer() {
+
         self.timer.invalidate()
         timeRemaining = breakTimeDuration
         currentTimerState = .stop
@@ -215,7 +229,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         self.requestNotification()
     }
     
-    //Formatting functions
+    //Text Formatting
     
     private func setTimeInViewModels(time: String) {
         zip(time, flipViewModels).forEach { number, viewModel in
@@ -242,6 +256,30 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         return tempVar
     }
 
+    
+    // Animation Controls
+    
+    func animatefrontText() {
+        animateFrontText = false
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            withAnimation(.linear(duration: 0.2)) {
+                self.animateFrontText = true
+            }
+
+        }
+    }
+    
+    func animatebackText() {
+        animateBackText = false
+
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            withAnimation(.linear(duration: 0.2)) {
+                self.animateBackText = true
+            }
+
+        }
+    }
     
     // Notification Settings
     
@@ -275,3 +313,4 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
         UNUserNotificationCenter.current().add(request)
     }
 }
+

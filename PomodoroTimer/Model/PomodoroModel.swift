@@ -17,7 +17,7 @@ enum PomodoroTimer {
     case running
     case stop
     
-    // Timer Screen UI Elements
+    // Timer View UI Elements
     
     func buttonText() -> String {
         switch self {
@@ -56,13 +56,23 @@ enum PomodoroTimer {
             return "Ready?"
         }
     }
+    
+    func backTimerText() -> String {
+        switch self {
+        case .running:
+            return "Ready?"
+        case .stop:
+            return "Relax!"
+        }
+    }
+    
 }
 
 enum PomodoroBreak {
     case running
     case stop
     
-    // Timer Screen UI Elements
+    // Timer View UI Elements
     
     func buttonText() -> String {
         switch self {
@@ -100,6 +110,17 @@ enum PomodoroBreak {
             
         case .running:
             return "Relax!"
+        case .stop:
+            return "Relax!"
+        }
+    }
+    
+    func backTimerText() -> String {
+        
+        switch self {
+            
+        case .running:
+            return "Running..."
         case .stop:
             return "Relax!"
         }

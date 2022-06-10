@@ -68,6 +68,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate, NSWindowD
        
         window.contentView = NSHostingView(rootView: contentView)
 
+        
+        
         window.toolbar = NSToolbar()
 
         
@@ -83,34 +85,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate, NSWindowD
         
         
         window.addTitlebarAccessoryViewController(titlebarAccessory)
-        
-        
         window.contentViewController?.view.window?.makeKey()
-        
-        
         self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
         
-        if let button = self.statusBarItem.button {
-      
-            
-           
-            
+        if let button = self.statusBarItem.button {     
           
-//            button.imagePosition = .imageOverlaps
-//
-//            button.image = NSImage(named: "Bezel")
-            
             button.image = NSImage(systemSymbolName: "timer", accessibilityDescription: "Timer")
             button.action = #selector(toggleWindow(_:))
         }
         
-        
-    }
-    
-
-    
-    func window(_ window: NSWindow, willResizeForVersionBrowserWithMaxPreferredSize maxPreferredFrameSize: NSSize, maxAllowedSize maxAllowedFrameSize: NSSize) -> NSSize {
-        NSSize(width: 400, height: 350)
         
     }
 
