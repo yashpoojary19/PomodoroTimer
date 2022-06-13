@@ -84,6 +84,7 @@ struct ContentView: View {
                             
                             Text("\(pomodoroViewModel.timeString(time: pomodoroViewModel.timeRemaining))")
                                 .foregroundColor(Color("timerStringColor"))
+                                .kerning(4)
                                 .font(Font.custom("RobotoMono-Bold", size: 35))
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.5)

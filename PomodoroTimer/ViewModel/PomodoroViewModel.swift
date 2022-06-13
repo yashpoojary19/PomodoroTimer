@@ -20,14 +20,14 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
     @Published var currentTimerState = PomodoroTimer.stop
     @Published var currentBreakState = PomodoroBreak.stop
     
-    @Published var timerDuration: Double = 10*60
-    @Published var breakTimeDuration: Double = 5*60
+    @Published var timerDuration: Double = 1*60
+    @Published var breakTimeDuration: Double = 1*60
     
-    @Published var currentTimerDuration: Double = 10*60
-    @Published var currentBreakTimeDuration: Double = 5*60
+    @Published var currentTimerDuration: Double = 1*60
+    @Published var currentBreakTimeDuration: Double = 1*60
     
-    let timerDurationArray: [Double] = [10, 25, 55, 90, 120]
-    let breakDurationArray: [Double] = [5, 10 , 15, 20, 30]
+    let timerDurationArray: [Double] = [1, 10, 25, 55, 90, 120]
+    let breakDurationArray: [Double] = [1, 5, 10 , 15, 20, 30]
     
     
 // For testing
@@ -36,7 +36,7 @@ class PomodoroViewModel: NSObject, ObservableObject, UNUserNotificationCenterDel
 
     
     // Indicates the remaining time when the timer is not running
-    @Published var timeRemaining: Double = 10*60
+    @Published var timeRemaining: Double = 1*60
     
 
     // Progress indicator for timer screen
