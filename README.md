@@ -15,7 +15,9 @@ Features:
 3. Focus session is followed by a break session by default
 
 
-You can find the app on TestFlight here: https://testflight.apple.com/join/9GnEvOr6
+![TimerCanvas](https://user-images.githubusercontent.com/45783229/173520035-0773141d-c376-4fb3-957a-2e810e5e7f6d.jpg)
+
+
+TestFlight: https://testflight.apple.com/join/9GnEvOr6
 
 Demo video: https://youtu.be/8_L3SvHmrNM
-
