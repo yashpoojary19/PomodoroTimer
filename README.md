@@ -6,8 +6,7 @@ Built using: Swift and SwiftUI
 Architecture: MVVM
 
 About:
-The app has 2 modes: Focus and Break. The duration of each mode can be changed based on the user's need. The app has a flip clock animation similar to
-Toggl Track's iOS app.
+The app has 2 modes: Focus and Break. The duration of each mode can be changed based on the user's need.
 
 Features:
 1. Control app from menu bar directly
