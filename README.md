@@ -1,7 +1,5 @@
 # PomodoroTimer
 
-Hi there, this is Yash here. I built this app as a part of my job application at Toggl.
-
 Built using: Swift, SwiftUI and UIKit
 Architecture: MVVM
 
