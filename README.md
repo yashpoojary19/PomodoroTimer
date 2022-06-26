@@ -2,7 +2,7 @@
 
 Hi there, this is Yash here. I built this app as a part of my job application at Toggl.
 
-Built using: Swift and SwiftUI
+Built using: Swift, SwiftUI and UIKit
 Architecture: MVVM
 
 About:
@@ -19,4 +19,3 @@ Features:
 
 TestFlight: https://testflight.apple.com/join/9GnEvOr6
 
-Demo video: https://youtu.be/8_L3SvHmrNM
